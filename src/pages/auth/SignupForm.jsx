@@ -107,7 +107,7 @@ function SignupForm() {
     const fetchTypeProduction = async () => {
       try {
         const response = await axios.get(
-          "http://back-endmarche-production.up.railway.app:8080/type-production/all",
+          "https://back-endmarche-production.up.railway.app:8080/type-production/all",
           {}
         );
         const rawType = response.data.data[0];
@@ -144,7 +144,7 @@ function SignupForm() {
 
     try {
       const response = await axios.post(
-        "http://back-endmarche-production.up.railway.app:8080/user/signup",
+        "https://back-endmarche-production.up.railway.app:8080/user/signup",
         formDataToSend,
         {
           headers: {
@@ -157,7 +157,7 @@ function SignupForm() {
 
       if (response.status === 200) {
         alert("Inscription réussie !");
-        navigate("/login");
+        navigate("./login");
       } else {
         alert("Erreur lors de l'inscription");
       }
@@ -565,7 +565,7 @@ function SignupForm() {
           <div className="d-flex justify-content-center mt-4">
             <div>
               <small>Vous avez déjà un compte ?</small>{" "}
-              <a href="/login"> Se connecter</a>
+              <a href="./login"> Se connecter</a>
             </div>
           </div>
         </div>

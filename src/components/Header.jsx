@@ -9,7 +9,7 @@ function Header() {
     event.preventDefault();
     try {
       const token = Cookie.getItem("token");
-      const response = await axios.post('http://back-endmarche-production.up.railway.app:8080/auth/logout', {}, {
+      const response = await axios.post('https://back-endmarche-production.up.railway.app:8080/auth/logout', {}, {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -19,7 +19,7 @@ function Header() {
       if (response.status === 200) {
         Cookie.removeItem("token");
         Cookie.removeItem("email");
-        navigate('/login');
+        navigate('./login');
       } else {
         console.error('Logout failed.');
       }

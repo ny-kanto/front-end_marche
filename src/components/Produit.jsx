@@ -36,7 +36,7 @@ function Produit({ produit, categories, unites, onDelete, onUpdate }) {
   const handleDelete = async () => {
     try {
       const token = Cookie.getItem("token");
-      const response = await axios.delete(`http://back-endmarche-production.up.railway.app:8080/produit/delete/${produit.id}`, {
+      const response = await axios.delete(`https://back-endmarche-production.up.railway.app:8080/produit/delete/${produit.id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -55,7 +55,7 @@ function Produit({ produit, categories, unites, onDelete, onUpdate }) {
     try {
       const token = Cookie.getItem("token");
 
-      const response = await axios.put(`http://back-endmarche-production.up.railway.app:8080/produit/update/${produit.id}`, editData, {
+      const response = await axios.put(`https://back-endmarche-production.up.railway.app:8080/produit/update/${produit.id}`, editData, {
         headers: {
           Authorization: `Bearer ${token}`
         }

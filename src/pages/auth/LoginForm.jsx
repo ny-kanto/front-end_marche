@@ -27,7 +27,7 @@ const handleInputChange = (e) => {
   const handleSubmit = (e) => {
       e.preventDefault();
       console.log("E-mail : " + formData.email + "; password : " + formData.password);
-      axios.post('http://back-endmarche-production.up.railway.app:8080/rest/auth/login', {
+      axios.post('https://back-endmarche-production.up.railway.app:8080/rest/auth/login', {
       email: formData.email,
       password: formData.password
     })
@@ -35,7 +35,7 @@ const handleInputChange = (e) => {
       console.log(response.data);
       Cookie.setItem("token", response.data.token);
       Cookie.setItem("email",response.data.email);
-      navigate('/product/list');
+      navigate('./product/list');
     })
     .catch((error) => {
       console.error(error);
@@ -110,7 +110,7 @@ const handleInputChange = (e) => {
           <div className="d-flex justify-content-center mt-4">
             <div>
               <small>Pas encore de compte ?</small>
-              <a href="/signup"> S&apos;inscrire</a>
+              <a href="./signup"> S&apos;inscrire</a>
             </div>
           </div>
         </div>

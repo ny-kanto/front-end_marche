@@ -35,12 +35,12 @@ function ListProduit() {
   
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate("./login");
     }
   
     const fetchProduits = async () => {
       try {
-        const response = await axios.get('http://back-endmarche-production.up.railway.app:8080/produit/all', {
+        const response = await axios.get('https://back-endmarche-production.up.railway.app:8080/produit/all', {
           headers: {
             Authorization: `Bearer ${token}`
           },
@@ -81,9 +81,9 @@ function ListProduit() {
 
       } catch (error) {
         if (error.response && error.response.status === 403) {
-          navigate("/error/403");
+          navigate("./error/403");
         } else if (error.response && error.response.status === 404) {
-          navigate("/error/404");
+          navigate("./error/404");
         } else {
           console.error('An error occurred:', error);
         }
@@ -170,7 +170,7 @@ function ListProduit() {
         formData.append('photo', newProductData.files[i]);
       }
 
-      const response = await axios.post('http://back-endmarche-production.up.railway.app:8080/produit/save', formData, {
+      const response = await axios.post('https://back-endmarche-production.up.railway.app:8080/produit/save', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
@@ -203,7 +203,7 @@ function ListProduit() {
         filtre_type_produit: formData.filtre_type_produit
     });
 
-    axios.get(`http://back-endmarche-production.up.railway.app:8080/produit/all?${params.toString()}`, {
+    axios.get(`https://back-endmarche-production.up.railway.app:8080/produit/all?${params.toString()}`, {
         headers: {
             Authorization: `Bearer ${Cookie.getItem("token")}`
         }
@@ -275,7 +275,7 @@ const handleSort = async (sortOrder, columnName) => {
         filtre_type_produit: formData.filtre_type_produit
     });
 
-    const response = await axios.get(`http://back-endmarche-production.up.railway.app:8080/produit/all?${params.toString()}`, {
+    const response = await axios.get(`https://back-endmarche-production.up.railway.app:8080/produit/all?${params.toString()}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -346,7 +346,7 @@ const handlePagination = async (pageNumber) => {
       filtre_type_produit: formData.filtre_type_produit
     });
 
-    const response = await axios.get(`http://back-endmarche-production.up.railway.app:8080/produit/all?${params.toString()}`, {
+    const response = await axios.get(`https://back-endmarche-production.up.railway.app:8080/produit/all?${params.toString()}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -515,7 +515,7 @@ const handlePagination = async (pageNumber) => {
                       <Pagination 
                         noPage={noPage} 
                         totalPages={totalPages}
-                        baseUrl="http://back-endmarche-production.up.railway.app:8080/produit/all"
+                        baseUrl="https://back-endmarche-production.up.railway.app:8080/produit/all"
                         onPageChange={handlePagination}
                       />
                     </div>
