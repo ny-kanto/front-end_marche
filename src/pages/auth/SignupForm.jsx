@@ -157,7 +157,7 @@ function SignupForm() {
 
       if (response.status === 200) {
         alert("Inscription réussie !");
-        navigate("./login");
+        navigate("/login");
       } else {
         alert("Erreur lors de l'inscription");
       }
@@ -565,7 +565,7 @@ function SignupForm() {
           <div className="d-flex justify-content-center mt-4">
             <div>
               <small>Vous avez déjà un compte ?</small>{" "}
-              <a href="./login"> Se connecter</a>
+              <a href="/login"> Se connecter</a>
             </div>
           </div>
         </div>

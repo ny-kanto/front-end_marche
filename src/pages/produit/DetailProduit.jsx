@@ -26,7 +26,7 @@ const DetailProduit = () => {
 
   useEffect(() => {
     if (!token) {
-      navigate("./login");
+      navigate("/login");
       return;
     }
   

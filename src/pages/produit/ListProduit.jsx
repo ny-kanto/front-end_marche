@@ -35,7 +35,7 @@ function ListProduit() {
   
   useEffect(() => {
     if (!token) {
-      navigate("./login");
+      navigate("/login");
     }
   
     const fetchProduits = async () => {
@@ -81,9 +81,9 @@ function ListProduit() {
 
       } catch (error) {
         if (error.response && error.response.status === 403) {
-          navigate("./error/403");
+          navigate("/error/403");
         } else if (error.response && error.response.status === 404) {
-          navigate("./error/404");
+          navigate("/error/404");
         } else {
           console.error('An error occurred:', error);
         }

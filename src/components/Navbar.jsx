@@ -6,21 +6,21 @@ function Navbar() {
       {/* LOGO */}
       <div className="navbar-brand-box">
         {/* Dark Logo*/}
-        <NavLink to="./index.html" className="logo logo-dark">
+        <NavLink to="/index.html" className="logo logo-dark">
           <span className="logo-sm">
-            <img src="./assets/images/logo-sm.png" alt="" height="22" />
+            <img src="/assets/images/logo-sm.png" alt="" height="22" />
           </span>
           <span className="logo-lg">
-            <img src="./assets/logo-dark.png" alt="" height="40" />
+            <img src="/assets/logo-dark.png" alt="" height="40" />
           </span>
         </NavLink>
         {/* Light Logo */}
-        <NavLink to="./index.html" className="logo logo-light">
+        <NavLink to="/index.html" className="logo logo-light">
           <span className="logo-sm">
-            <img src="./assets/images/logo-sm.png" alt="" height="22" />
+            <img src="/assets/images/logo-sm.png" alt="" height="22" />
           </span>
           <span className="logo-lg">
-            <img src="./assets/logo-light.png" alt="" height="40" />
+            <img src="/assets/logo-light.png" alt="" height="40" />
           </span>
         </NavLink>
         <button
@@ -57,7 +57,7 @@ function Navbar() {
                 <ul className="nav nav-sm flex-column">
                   <li className="nav-item">
                     <NavLink
-                      to="./user/classement/list"
+                      to="/user/classement/list"
                       className="nav-link"
                       data-key="t-starter"
                     >
@@ -66,7 +66,7 @@ function Navbar() {
                   </li>
                   <li className="nav-item">
                     <NavLink
-                      to="./user/classement-etape/list"
+                      to="/user/classement-etape/list"
                       className="nav-link"
                       data-key="t-starter"
                     >
@@ -75,7 +75,7 @@ function Navbar() {
                   </li>
                   <li className="nav-item">
                     <NavLink
-                      to="./user/classement-equipe/list"
+                      to="/user/classement-equipe/list"
                       className="nav-link"
                       data-key="t-starter"
                     >
@@ -87,7 +87,7 @@ function Navbar() {
             </li>
 
             <li className="nav-item">
-              <NavLink to="./user/etape/list" className="nav-link menu-link">
+              <NavLink to="/user/etape/list" className="nav-link menu-link">
                 <i className="ri-file-list-3-line"></i>{" "}
                 <span data-key="t-forms">Étapes</span>
               </NavLink>
