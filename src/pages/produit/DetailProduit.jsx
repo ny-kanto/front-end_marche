@@ -32,7 +32,7 @@ const DetailProduit = () => {
   
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`https://back-endmarche-production.up.railway.app:8080/produit/get/${id}`, {
+        const response = await axios.get(`https://back-endmarche-production.up.railway.app/produit/get/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`
           },

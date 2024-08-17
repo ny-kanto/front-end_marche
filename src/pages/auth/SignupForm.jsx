@@ -107,7 +107,7 @@ function SignupForm() {
     const fetchTypeProduction = async () => {
       try {
         const response = await axios.get(
-          "https://back-endmarche-production.up.railway.app:8080/type-production/all",
+          "https://back-endmarche-production.up.railway.app/type-production/all",
           {}
         );
         const rawType = response.data.data[0];
@@ -144,7 +144,7 @@ function SignupForm() {
 
     try {
       const response = await axios.post(
-        "https://back-endmarche-production.up.railway.app:8080/user/signup",
+        "https://back-endmarche-production.up.railway.app/user/signup",
         formDataToSend,
         {
           headers: {

@@ -27,7 +27,7 @@ const handleInputChange = (e) => {
   const handleSubmit = (e) => {
       e.preventDefault();
       console.log("E-mail : " + formData.email + "; password : " + formData.password);
-      axios.post('https://back-endmarche-production.up.railway.app:8080/rest/auth/login', {
+      axios.post('https://back-endmarche-production.up.railway.app/rest/auth/login', {
       email: formData.email,
       password: formData.password
     })

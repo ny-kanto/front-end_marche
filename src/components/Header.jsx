@@ -9,7 +9,7 @@ function Header() {
     event.preventDefault();
     try {
       const token = Cookie.getItem("token");
-      const response = await axios.post('https://back-endmarche-production.up.railway.app:8080/auth/logout', {}, {
+      const response = await axios.post('https://back-endmarche-production.up.railway.app/auth/logout', {}, {
         headers: {
           Authorization: `Bearer ${token}`
         },
