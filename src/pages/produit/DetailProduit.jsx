@@ -26,7 +26,7 @@ const DetailProduit = () => {
 
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate("/front-end_marche/login");
       return;
     }
   
@@ -209,7 +209,7 @@ const DetailProduit = () => {
                   <button
                     type="button"
                     className="btn btn-info bg-gradient"
-                    onClick={() => navigate("/product/list")}
+                    onClick={() => navigate("/front-end_marche/product/list")}
                   >
                     Retour
                   </button>

@@ -19,7 +19,7 @@ function Header() {
       if (response.status === 200) {
         Cookie.removeItem("token");
         Cookie.removeItem("email");
-        navigate('/login');
+        navigate('/front-end_marche/login');
       } else {
         console.error('Logout failed.');
       }
