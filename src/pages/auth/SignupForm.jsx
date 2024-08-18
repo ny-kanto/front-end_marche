@@ -4,7 +4,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import Stepper from "../../components/Stepper";
 import axios from "axios";
 import Footer from "../../components/Footer";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignupForm() {
   const [step, setStep] = useState(1);
