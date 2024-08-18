@@ -9,14 +9,14 @@ function Footer() {
           &copy; 2024 Mon Application. Tous droits réservés.
         </p>
         <p className="mb-0">
-          <Link to="#" className="text-white">
+          <a href="#" className="text-white">
             Politique de confidentialité
-          </Link>{" "}
+          </a>{" "}
           |
-          <Link to="#" className="text-white">
+          <a href="#" className="text-white">
             {" "}
             Termes et conditions
-          </Link>
+          </a>
         </p>
       </div>
     </footer>

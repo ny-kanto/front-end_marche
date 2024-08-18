@@ -96,15 +96,15 @@ function Produit({ produit, categories, unites, onDelete, onUpdate }) {
         <td>{produit.nom_categorie}</td>
         <td>
           <div className="hstack gap-3 flex-wrap">
-            <Link to='#' className="link-info fs-15" onClick={() => setShowModalEdit(true)}>
+            <a href='#' className="link-info fs-15" onClick={() => setShowModalEdit(true)}>
               <i className="fa fa-pencil"></i>
-            </Link>
-            <Link to={`/front-end_marche/product/${produit.id}`} className="link-success fs-15">
+            </a>
+            <a href={`/front-end_marche/product/${produit.id}`} className="link-success fs-15">
               <i className="fa fa-file-text"></i>
-            </Link>
-            <Link to='#' className="link-danger fs-15" onClick={() => setShowModalDelete(true)}>
+            </a>
+            <a href='#' className="link-danger fs-15" onClick={() => setShowModalDelete(true)}>
               <i className="fa fa-trash"></i>
-            </Link>
+            </a>
           </div>
         </td>
       </tr>

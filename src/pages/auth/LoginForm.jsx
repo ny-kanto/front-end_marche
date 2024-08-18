@@ -112,7 +112,7 @@ function LoginForm() {
           <div className="d-flex justify-content-center mt-4">
             <div>
               <small>Pas encore de compte ?</small>
-              <Link to="/front-end_marche/signup"> S&apos;inscrire</Link>
+              <a href="/front-end_marche/signup"> S&apos;inscrire</a>
             </div>
           </div>
         </div>

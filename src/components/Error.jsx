@@ -11,9 +11,9 @@ const Error = ({ errorCode, title, message, redirectLink }) => {
       <div className="d-flex justify-content-center mt-5">
         <div className="d-flex flex-column align-items-center">
           <div>
-            <Link to={redirectLink} className="btn btn-primary my-4">
+            <a href={redirectLink} className="btn btn-primary my-4">
               Retour à la page
-            </Link>
+            </a>
           </div>
         </div>
       </div>

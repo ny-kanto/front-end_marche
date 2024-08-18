@@ -467,33 +467,33 @@ const handlePagination = async (pageNumber) => {
                             <tr>
                               <th scope="col">
                                 #
-                                <Link to="#" onClick={() => handleSort(sort + 1, "id")}>
+                                <a href="#" onClick={() => handleSort(sort + 1, "id")}>
                                 <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
-                                </Link>
+                                </a>
                               </th>
                               <th scope="col">
                                 Nom
-                                <Link to="#" onClick={() => handleSort(sort + 1, "nom")}>
+                                <a href="#" onClick={() => handleSort(sort + 1, "nom")}>
                                 <i className="fas fa-sort" style={{ float: "right", color: "grey"}}></i>
-                                </Link>
+                                </a>
                               </th>
                               <th scope="col">
                                 Prix
-                                <Link to="#" onClick={() => handleSort(sort + 1, "prix")}>
+                                <a href="#" onClick={() => handleSort(sort + 1, "prix")}>
                                 <i className="fas fa-sort" style={{ float: "right", color: "grey"}}></i>
-                                </Link>
+                                </a>
                               </th>
                               <th scope="col">
                                 Unité
-                                <Link to="#" onClick={() => handleSort(sort + 1, "id_unite")}>
+                                <a href="#" onClick={() => handleSort(sort + 1, "id_unite")}>
                                 <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
-                                </Link>
+                                </a>
                               </th>
                               <th scope="col">
                                 Catégorie
-                                <Link to="#" onClick={() => handleSort(sort + 1, "id_categorie")}>
+                                <a href="#" onClick={() => handleSort(sort + 1, "id_categorie")}>
                                 <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
-                                </Link>
+                                </a>
                               </th>
                               <th scope="col">Action</th>
                             </tr>

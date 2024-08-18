@@ -38,14 +38,14 @@ function Header() {
         <nav>
           <ul className="nav">
             {/* <li className="nav-item">
-              <Link className="nav-link text-white" to="#">
+              <a className="nav-link text-white" href="#">
                 <i className="fa fa-cart-plus"></i>
-              </Link>
+              </a>
             </li> */}
             <li className="nav-item">
-              <Link className="nav-link text-white" to="#" onClick={handleLogout}>
+              <a className="nav-link text-white" href="#" onClick={handleLogout}>
                 <i className="fa fa-sign-out" aria-hidden="true"></i>
-              </Link>
+              </a>
             </li>
           </ul>
         </nav>
