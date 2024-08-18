@@ -4,6 +4,10 @@ import App from './App.jsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import LoginForm from './pages/auth/LoginForm.jsx'
+import SignupForm from './pages/auth/SignupForm.jsx'
+import ListProduit from './pages/produit/ListProduit.jsx'
+import DetailProduit from './pages/produit/DetailProduit.jsx'
+import Error from './components/Error.jsx'
 
 const router = createBrowserRouter([
   {
