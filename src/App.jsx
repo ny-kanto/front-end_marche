@@ -11,13 +11,13 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/" element={<LoginForm />} />
-          <Route path="/signup" element={<SignupForm />} />
-          <Route path="/product/list" element={<ListProduit />} />
-          <Route path="/product/:id" element={<DetailProduit />} />
-          <Route path="/error/403" element={<Error errorCode="403" title="Forbidden" message="Access is denied" redirectLink="/login" />} />
-          <Route path="*" element={<Error errorCode="404" title="Page Not Found" message="We couldn't find the page you are looking for" redirectLink="/login" />} />
+          <Route path="https://ny-kanto.github.io/front-end_marche/login" element={<LoginForm />} />
+          <Route path="https://ny-kanto.github.io/front-end_marche/" element={<LoginForm />} />
+          <Route path="https://ny-kanto.github.io/front-end_marche/signup" element={<SignupForm />} />
+          <Route path="https://ny-kanto.github.io/front-end_marche/product/list" element={<ListProduit />} />
+          <Route path="https://ny-kanto.github.io/front-end_marche/product/:id" element={<DetailProduit />} />
+          <Route path="https://ny-kanto.github.io/front-end_marche/error/403" element={<Error errorCode="403" title="Forbidden" message="Access is denied" redirectLink="https://ny-kanto.github.io/front-end_marche/login" />} />
+          <Route path="*" element={<Error errorCode="404" title="Page Not Found" message="We couldn't find the page you are looking for" redirectLink="https://ny-kanto.github.io/front-end_marche/login" />} />
         </Routes>
       </Router>
     </>
