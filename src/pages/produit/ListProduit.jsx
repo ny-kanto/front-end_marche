@@ -166,9 +166,11 @@ function ListProduit() {
       formData.append('delais_livraison', newProductData.delaisLivraison);
       formData.append('id_categorie', newProductData.categorie.id);
 
-      for (let i = 0; i < newProductData.files.length; i++) {
-        formData.append('photo', newProductData.files[i]);
-      }
+      if (newProductData.files && newProductData.files.length > 0) {
+        for (let i = 0; i < newProductData.files.length; i++) {
+          formData.append('photo', newProductData.files[i]);
+        }
+      }      
 
       const response = await axios.post('https://back-endmarche-production.up.railway.app/produit/save', formData, {
         headers: {
