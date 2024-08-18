@@ -11,7 +11,7 @@ import Error from './components/Error.jsx'
 const router = createBrowserRouter([
   {
     path: "/front-end_marche/",
-    element: <SignupForm />,
+    element: <LoginForm />,
     children: [
       {
         path: "/front-end_marche/login",
