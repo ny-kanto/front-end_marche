@@ -8,38 +8,40 @@ import Footer from '../../components/Footer';
 // import Header from '../../components/Header';
 
 function LoginForm() {
-const [formData, setFormData] = useState({
-    email: "johndoe@gmail.com",
-    password: "123",
-});
+  const [formData, setFormData] = useState({
+      email: "johndoe@gmail.com",
+      password: "123",
+  });
 
-const [showPassword, setShowPassword] = useState(false);
-const navigate = useNavigate();
-const toggleShowPassword = () => {
-  setShowPassword(!showPassword);
-};
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
-const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-};
+  const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = (e) => {
       e.preventDefault();
       console.log("E-mail : " + formData.email + "; password : " + formData.password);
+      
       axios.post('https://back-endmarche-production.up.railway.app/rest/auth/login', {
-      email: formData.email,
-      password: formData.password
-    })
-    .then((response) => {
-      console.log(response.data);
-      Cookie.setItem("token", response.data.token);
-      Cookie.setItem("email",response.data.email);
-      navigate('/product/list');
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+        email: formData.email,
+        password: formData.password
+      })
+      .then((response) => {
+        console.log("Response Data: ", response.data);
+        Cookie.setItem("token", response.data.token);
+        Cookie.setItem("email", response.data.email);
+        navigate('/product/list');
+      })
+      .catch((error) => {
+        console.error("Login Error: ", error.response ? error.response.data : error.message);
+      });
   };
 
   return (
