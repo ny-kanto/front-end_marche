@@ -98,7 +98,7 @@ function Produit({ produit, categories, unites, onDelete, onUpdate }) {
             <a href='#' className="link-info fs-15" onClick={() => setShowModalEdit(true)}>
               <i className="fa fa-pencil"></i>
             </a>
-            <a href={`https://ny-kanto.github.io/front-end_marche/product/${produit.id}`} className="link-success fs-15">
+            <a href={`/product/${produit.id}`} className="link-success fs-15">
               <i className="fa fa-file-text"></i>
             </a>
             <a href='#' className="link-danger fs-15" onClick={() => setShowModalDelete(true)}>
