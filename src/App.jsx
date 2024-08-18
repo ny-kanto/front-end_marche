@@ -12,7 +12,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="https://ny-kanto.github.io/front-end_marche/login" element={<LoginForm />} />
-          <Route path="https://ny-kanto.github.io/front-end_marche/" element={<LoginForm />} />
+          <Route path="/" element={<LoginForm />} />
           <Route path="https://ny-kanto.github.io/front-end_marche/signup" element={<SignupForm />} />
           <Route path="https://ny-kanto.github.io/front-end_marche/product/list" element={<ListProduit />} />
           <Route path="https://ny-kanto.github.io/front-end_marche/product/:id" element={<DetailProduit />} />
