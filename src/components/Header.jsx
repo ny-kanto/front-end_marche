@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import Cookie from 'js-cookies';
 
@@ -38,14 +38,14 @@ function Header() {
         <nav>
           <ul className="nav">
             {/* <li className="nav-item">
-              <a className="nav-link text-white" href="#">
+              <Link className="nav-link text-white" to="#">
                 <i className="fa fa-cart-plus"></i>
-              </a>
+              </Link>
             </li> */}
             <li className="nav-item">
-              <a className="nav-link text-white" href="#" onClick={handleLogout}>
+              <Link className="nav-link text-white" to="#" onClick={handleLogout}>
                 <i className="fa fa-sign-out" aria-hidden="true"></i>
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

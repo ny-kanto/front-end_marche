@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookie from 'js-cookies';
 import { Button, Modal, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from 'react-router-dom';
 
 function Produit({ produit, categories, unites, onDelete, onUpdate }) {
   const [showModalDelete, setShowModalDelete] = useState(false);
@@ -95,15 +96,15 @@ function Produit({ produit, categories, unites, onDelete, onUpdate }) {
         <td>{produit.nom_categorie}</td>
         <td>
           <div className="hstack gap-3 flex-wrap">
-            <a href='#' className="link-info fs-15" onClick={() => setShowModalEdit(true)}>
+            <Link to='#' className="link-info fs-15" onClick={() => setShowModalEdit(true)}>
               <i className="fa fa-pencil"></i>
-            </a>
-            <a href={`/front-end_marche/product/${produit.id}`} className="link-success fs-15">
+            </Link>
+            <Link to={`/front-end_marche/product/${produit.id}`} className="link-success fs-15">
               <i className="fa fa-file-text"></i>
-            </a>
-            <a href='#' className="link-danger fs-15" onClick={() => setShowModalDelete(true)}>
+            </Link>
+            <Link to='#' className="link-danger fs-15" onClick={() => setShowModalDelete(true)}>
               <i className="fa fa-trash"></i>
-            </a>
+            </Link>
           </div>
         </td>
       </tr>

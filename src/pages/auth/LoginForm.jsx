@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Cookie from 'js-cookies';
 import Footer from '../../components/Footer';
@@ -112,7 +112,7 @@ function LoginForm() {
           <div className="d-flex justify-content-center mt-4">
             <div>
               <small>Pas encore de compte ?</small>
-              <a href="/front-end_marche/signup"> S&apos;inscrire</a>
+              <Link to="/front-end_marche/signup"> S&apos;inscrire</Link>
             </div>
           </div>
         </div>

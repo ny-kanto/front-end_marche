@@ -8,7 +8,7 @@ import Header from '../../components/Header';
 import Produit from "../../components/Produit";
 import Cookie from "js-cookies";
 import Pagination from '../../components/Pagination';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function ListProduit() {
   const [produits, setProduits] = useState([]);
@@ -467,33 +467,33 @@ const handlePagination = async (pageNumber) => {
                             <tr>
                               <th scope="col">
                                 #
-                                <a href="#" onClick={() => handleSort(sort + 1, "id")}>
+                                <Link to="#" onClick={() => handleSort(sort + 1, "id")}>
                                 <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
-                                </a>
+                                </Link>
                               </th>
                               <th scope="col">
                                 Nom
-                                <a href="#" onClick={() => handleSort(sort + 1, "nom")}>
+                                <Link to="#" onClick={() => handleSort(sort + 1, "nom")}>
                                 <i className="fas fa-sort" style={{ float: "right", color: "grey"}}></i>
-                                </a>
+                                </Link>
                               </th>
                               <th scope="col">
                                 Prix
-                                <a href="#" onClick={() => handleSort(sort + 1, "prix")}>
+                                <Link to="#" onClick={() => handleSort(sort + 1, "prix")}>
                                 <i className="fas fa-sort" style={{ float: "right", color: "grey"}}></i>
-                                </a>
+                                </Link>
                               </th>
                               <th scope="col">
                                 Unité
-                                <a href="#" onClick={() => handleSort(sort + 1, "id_unite")}>
+                                <Link to="#" onClick={() => handleSort(sort + 1, "id_unite")}>
                                 <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
-                                </a>
+                                </Link>
                               </th>
                               <th scope="col">
                                 Catégorie
-                                <a href="#" onClick={() => handleSort(sort + 1, "id_categorie")}>
+                                <Link to="#" onClick={() => handleSort(sort + 1, "id_categorie")}>
                                 <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
-                                </a>
+                                </Link>
                               </th>
                               <th scope="col">Action</th>
                             </tr>

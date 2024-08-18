@@ -1,4 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -8,14 +9,14 @@ function Footer() {
           &copy; 2024 Mon Application. Tous droits réservés.
         </p>
         <p className="mb-0">
-          <a href="#" className="text-white">
+          <Link to="#" className="text-white">
             Politique de confidentialité
-          </a>{" "}
+          </Link>{" "}
           |
-          <a href="#" className="text-white">
+          <Link to="#" className="text-white">
             {" "}
             Termes et conditions
-          </a>
+          </Link>
         </p>
       </div>
     </footer>
