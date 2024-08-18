@@ -61,11 +61,6 @@ const DetailProduit = () => {
   
     fetchProduct();
   }, [id, navigate, token]);
-  
-
-  if (!product) {
-    return <div>Chargement...</div>;
-  }
 
   return (
     <div>
