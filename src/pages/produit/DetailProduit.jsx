@@ -18,7 +18,14 @@ import '../../assets/detailProduit.css';
 
 const DetailProduit = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState();
+  const [nom, setNom] = useState();
+  const [description, setDescription] = useState();
+  const [prix, setPrix] = useState();
+  const [minCommande, setMinCommande] = useState();
+  const [delaisLivraison, setDelaisLivraison] = useState();
+  const [categorie, setCategorie] = useState();
+  const [unite, setUnite] = useState();
+
 
   const[produitPhotos, setProduitPhotos] = useState([]);
   const navigate = useNavigate();
@@ -38,8 +45,14 @@ const DetailProduit = () => {
           },
           withCredentials: true
         });
-        setProduct(response.data.data[0]);
-        setProduitPhotos(response.data.data[1]);
+        setNom(response.data.data[0]);
+        setDescription(response.data.data[1]);
+        setPrix(response.data.data[2]);
+        setMinCommande(response.data.data[3]);
+        setDelaisLivraison(response.data.data[4]);
+        setCategorie(response.data.data[5]);
+        setUnite(response.data.data[6]);
+        setProduitPhotos(response.data.data[7]);
       } catch (error) {
         console.error("Erreur lors de la récupération du produit:", error);
       }
@@ -93,7 +106,7 @@ const DetailProduit = () => {
                       <SwiperSlide key={index}>
                         <img
                           src={`data:${photo.mimeType};base64,${photo.base64}`}
-                          alt={product.nom}
+                          alt={nom}
                           className="img-fluid d-block"
                         />
                       </SwiperSlide>
@@ -106,13 +119,13 @@ const DetailProduit = () => {
             <div className="row mt-4">
               <div className="row mt-4">
                 <div className="col-lg-12">
-                  <h1 className="text-center">{product.nom}</h1>
+                  <h1 className="text-center">{nom}</h1>
                 </div>
               </div>
               <div className="row mt-4">
                 <div className="col-lg-5 offset-lg-1">
                   <h3>Description</h3>
-                  <p>{product.description}</p>
+                  <p>{description}</p>
                 </div>
                 <div className="col-lg-5 offset-lg-1">
                   <h3>Détails</h3>
@@ -148,7 +161,7 @@ const DetailProduit = () => {
                             Unite :
                           </p>
                           <h5 className="mb-0">
-                          {product.unite.nom}
+                          {unite}
                           </h5>
                         </div>
                       </div>
@@ -186,7 +199,7 @@ const DetailProduit = () => {
                             Catégorie :
                           </p>
                           <h5 className="mb-0">
-                          {product.categorie.nom}
+                          {categorie}
                           </h5>
                         </div>
                       </div>
@@ -197,10 +210,10 @@ const DetailProduit = () => {
                   </h5>
                   <ul style={{ paddingLeft: '20px', lineHeight: '1.7', color: '#555' }}>
                     <li style={{ marginBottom: '10px' }}>
-                      <strong>Minimum de commande :</strong> {product.minCommande}
+                      <strong>Minimum de commande :</strong> {minCommande}
                     </li>
                     <li>
-                      <strong>Délais de livraison :</strong> {product.delaisLivraison} j
+                      <strong>Délais de livraison :</strong> {delaisLivraison} j
                     </li>
                   </ul>
                 </div>
