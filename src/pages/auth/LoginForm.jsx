@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Cookie from 'js-cookies';
 import Footer from '../../components/Footer';
-// import Header from '../../components/Header';
 
 function LoginForm() {
   const [formData, setFormData] = useState({
