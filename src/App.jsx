@@ -16,7 +16,7 @@ function App() {
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/product/list" element={<ListProduit />} />
           <Route path="/product/:id" element={<DetailProduit />} />
-          <Route path="/error/403" element={<Error errorCode="403" title="Forbidden" message="Access is denied" redirectLink="/login" />} />
+          <Route path="/error/403" element={<Error errorCode="403" title="Forbidden" message="Access is denied" redirectLink="/front-end_marche/login" />} />
           {/* <Route path="*" element={<Error errorCode="404" title="Page Not Found" message="We couldn't find the page you are looking for" redirectLink="/login" />} /> */}
         </Routes>
       </Router>
