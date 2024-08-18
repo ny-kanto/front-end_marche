@@ -1,36 +1,36 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createHashRouter, RouterProvider } from 'react-router-dom'
 import LoginForm from './pages/auth/LoginForm.jsx'
 import SignupForm from './pages/auth/SignupForm.jsx'
 import ListProduit from './pages/produit/ListProduit.jsx'
 import DetailProduit from './pages/produit/DetailProduit.jsx'
 import Error from './components/Error.jsx'
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/front-end_marche/",
     element: <LoginForm />,
     children: [
       {
-        path: "/front-end_marche/login",
+        path: "login",
         element: <LoginForm />,
       },
       {
-        path: "/front-end_marche/signup",
+        path: "signup",
         element: <SignupForm />,
       },
       {
-        path: "/front-end_marche/product/list",
+        path: "product/list",
         element: <ListProduit />,
       },
       {
-        path: "/front-end_marche/product/:id",
+        path: "product/:id",
         element: <DetailProduit />,
       },
       {
-        path: "/front-end_marche/error/403",
+        path: "error/403",
         element: <Error errorCode="403" title="Forbidden" message="Access is denied" redirectLink="/front-end_marche/login" />,
       },
       {
