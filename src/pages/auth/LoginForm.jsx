@@ -36,7 +36,7 @@ function LoginForm() {
         console.log("Response Data: ", response.data);
         Cookie.setItem("token", response.data.token);
         Cookie.setItem("email", response.data.email);
-        navigate('/product/list');
+        navigate('./product/list');
       })
       .catch((error) => {
         console.error("Login Error: ", error.response ? error.response.data : error.message);
@@ -111,7 +111,7 @@ function LoginForm() {
           <div className="d-flex justify-content-center mt-4">
             <div>
               <small>Pas encore de compte ?</small>
-              <a href="/signup"> S&apos;inscrire</a>
+              <a href="/front-end_marche/signup"> S&apos;inscrire</a>
             </div>
           </div>
         </div>
