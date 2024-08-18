@@ -142,7 +142,7 @@ const DetailProduit = () => {
                             Prix :
                           </p>
                           <h5 className="mb-0">
-                          {product.prix} Ar
+                          {prix} Ar
                           </h5>
                         </div>
                       </div>
