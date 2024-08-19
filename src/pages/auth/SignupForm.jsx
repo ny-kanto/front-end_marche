@@ -138,7 +138,7 @@ function SignupForm() {
     formDataToSend.append("date_naissance", formData.dateNaissance);
     formDataToSend.append("code_postal", formData.code);
     formDataToSend.append("id_role", formData.role);
-    formDataToSend.append("id_type_production", formData.typeProduction || "");
+    formDataToSend.append("id_type_production", formData.typeProduction || "0");
     formDataToSend.append("contact", formData.contact);
     formDataToSend.append("localisation", formData.adresse);
 
