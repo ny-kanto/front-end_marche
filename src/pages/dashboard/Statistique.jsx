@@ -4,7 +4,7 @@ import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import Navbar from "../../components/Navbar";
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../../components/Loading";
 import { Bar } from "react-chartjs-2";
@@ -18,19 +18,23 @@ import {
   Legend,
 } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function Statistique() {
   const [chartData, setChartData] = useState(null);
+  const [stat, setStat] = useState([]);
+  const [produits, setProduits] = useState([]);
 
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
   useEffect(() => {
-    console.log("token front : ", token);
-    console.log("email front : ", sessionStorage.getItem("email"));
-    if (!token) {
-      navigate("/login");
-    }
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -41,42 +45,72 @@ function Statistique() {
             withCredentials: true,
           }
         );
-
+  
         const stats = response.data.data[0];
+        
         const monthOrder = [
-          "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
-          "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+          "Janvier",
+          "Février",
+          "Mars",
+          "Avril",
+          "Mai",
+          "Juin",
+          "Juillet",
+          "Août",
+          "Septembre",
+          "Octobre",
+          "Novembre",
+          "Décembre",
         ];
-
-        const completeStats = monthOrder.map((month) => {
+  
+        // Utilisation de monthOrder pour forcer l'ordre des mois
+        const orderedStats = monthOrder.map((month) => {
           const stat = stats.find((s) => s.mois === month);
-          return stat ? stat.totalVentes : 0;
+          return {
+            mois: month,
+            totalVentes: stat ? stat.totalVentes : 0,
+            nomProduit: stat ? stat.nomProduit : "",
+            nomUnite: stat ? stat.nomUnite : "",
+            totalVendus: stat ? stat.totalVendus : 0,
+            annee: stat ? stat.annee : 2024, // par défaut à 2024 si aucune donnée
+          };
         });
 
+        console.log("stat : ", stat);
+        console.log("stats : ", stats);
+  
+        // Mise à jour du graphique avec les données ordonnées
         setChartData({
           labels: monthOrder,
           datasets: [
             {
               label: "Total des ventes",
-              data: completeStats,
+              data: orderedStats.map((s) => s.totalVentes),
               backgroundColor: "#007bff",
-              barThickness: 60
+              barThickness: 60,
             },
           ],
         });
+  
+        setProduits(response.data.data[1]);
+        setStat(orderedStats); // Utilise les statistiques ordonnées pour la table
+
+        console.log("ordered : ", orderedStats);
+  
       } catch (error) {
         if (error.response && error.response.status === 403) {
           navigate("/error/403");
         } else if (error.response && error.response.status === 404) {
           navigate("/error/404");
         } else {
-          console.error('An error occurred:', error);
+          console.error("An error occurred:", error);
         }
       }
     };
-
+  
     fetchData();
   }, [token, navigate]);
+  
 
   const cardColor = "#ffffff"; // Couleur de fond de la carte
   const borderColor = "#e0e0e0"; // Couleur de la bordure
@@ -137,7 +171,6 @@ function Statistique() {
       },
     },
   };
-  
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -170,6 +203,46 @@ function Statistique() {
                   ) : (
                     <Loading />
                   )}
+                </div>
+              </div>
+            </div>
+            <div className="col-12">
+              <div className="card">
+                <div className="card-header align-items-center d-flex">
+                  <h4 className="card-title mb-0 flex-grow-1">Produit</h4>
+                </div>
+                <div className="card-body">
+                  <div className="live-preview">
+                    <div className="table-responsive modal-body-pdf">
+                      <table
+                        className="table align-middle table-nowrap mb-0"
+                        id="myTable"
+                      >
+                        <thead>
+                          <tr>
+                            <th scope="col">Produit</th>
+                            <th scope="col">Unité</th>
+                            <th scope="col">Total Vendus</th>
+                            <th scope="col">Total Ventes</th>
+                            <th scope="col">Mois</th>
+                            <th scope="col">Année</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {stat.map((st, index) => (
+                            <tr key={`${st.idProduit}-${index}`}>
+                              <td>{st.nomProduit}</td>
+                              <td>{st.nomUnite}</td>
+                              <td>{st.totalVendus}</td>
+                              <td>{st.totalVentes}</td>
+                              <td>{st.mois}</td>
+                              <td>{st.annee}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

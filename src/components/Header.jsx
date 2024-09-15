@@ -23,7 +23,7 @@ function Header(refresh) {
     const fetchCartCount = async () => {
       try {
         const token = sessionStorage.getItem("token");
-        const response = await axios.get("http://localhost:8080/panier/count", {
+        const response = await axios.get("http://localhost:8080/user/info", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -31,7 +31,7 @@ function Header(refresh) {
         });
 
         if (response.status === 200) {
-          setPersonne(response.data.data[1]);
+          setPersonne(response.data.data[0]);
         }
       } catch (error) {
         console.error("Error fetching cart count:", error);
