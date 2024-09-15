@@ -6,9 +6,10 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import Produit from "../../components/Produit";
-import Cookie from "js-cookies";
+import Navbar from "../../components/Navbar";
 import Pagination from '../../components/Pagination';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Loading from '../../components/Loading';
 
 function ListProduit() {
   const [produits, setProduits] = useState([]);
@@ -16,9 +17,10 @@ function ListProduit() {
   const [categories, setCategories] = useState([]);
   const [unites, setUnites] = useState([]);
   const [typeProduits, setTypeProduits] = useState([]);
-  const [sort, setSort] = useState();
-  const [column, setColumn] = useState();
-  const [noPage, setNoPage] = useState();
+  const [regions, setRegions] = useState([]);
+  const [sort, setSort] = useState('1');
+  const [column, setColumn] = useState('p.id');
+  const [noPage, setNoPage] = useState('1');
   const [formData, setFormData] = useState({
     filtre_nom: '',
     filtre_prix_min: '',
@@ -29,23 +31,37 @@ function ListProduit() {
   });
 
   const [refresh, setRefresh] = useState(false);
-  const token = Cookie.getItem("token");
+  const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
 
   
   useEffect(() => {
+    console.log("token front : ", token);
+    console.log("email front : ", sessionStorage.getItem("email"));
     if (!token) {
       navigate("/login");
     }
-  
+
+    const params = new URLSearchParams({
+      ...formData,
+      noPage: noPage,
+      sort: sort,
+      column: column
+    });
+
     const fetchProduits = async () => {
       try {
-        const response = await axios.get('https://back-endmarche-production.up.railway.app/produit/all', {
+        const response = await axios.get(`http://localhost:8080/produit/all?${params.toString()}`, {
           headers: {
             Authorization: `Bearer ${token}`
           },
           withCredentials: true
         });
+
+        const url = `http://localhost:8080/produit/all?${params.toString()}`;
+
+        console.log("Requête complète :", url);
+
         const rawProduits = response.data.data[0];
         const transformedProduits = rawProduits.map(produit => ({
           id: produit.id,
@@ -57,7 +73,10 @@ function ListProduit() {
           id_unite: produit.unite.id,
           nom_unite: produit.unite.nom,
           id_categorie: produit.categorie.id,
-          nom_categorie: produit.categorie.nom
+          nom_categorie: produit.categorie.nom,
+          localisation: produit.localisation,
+          id_region: produit.region.id,
+          nom_region: produit.region.nom
         }));
         setProduits(transformedProduits);
   
@@ -74,10 +93,14 @@ function ListProduit() {
           id: typeProduit.id,
           nom: typeProduit.nom,
         })));
+        setRegions(response.data.data[8].map(region => ({
+          id: region.id,
+          nom: region.nom,
+        })));
         setNoPage(response.data.data[5]);
         setSort(response.data.data[6]);
         setColumn(response.data.data[7]);
-        console.log(response.data.data[0]);
+        console.log("response data 0 : ", response.data.data[0]);
 
       } catch (error) {
         if (error.response && error.response.status === 403) {
@@ -91,13 +114,47 @@ function ListProduit() {
     };
   
     fetchProduits();
-  }, [navigate, token, refresh]);
+  }, [navigate, token, refresh, formData, noPage, sort, column]);
   
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "filtre_nom") {
+      const updatednom = name === "filtre_nom" ? value : formData.filtre_nom;
+
+      setFormData({ ...formData, [name]: updatednom });
+    }
     
-    setFormData({ ...formData, [name]: value });
+    if (name === "filtre_prix_min") {
+      const updatedprix_min = name === "filtre_prix_min" ? value : formData.filtre_prix_min;
+
+      setFormData({ ...formData, [name]: updatedprix_min });
+    }
+    
+    if (name === "filtre_prix_max") {
+      const updatedprix_max = name === "filtre_prix_max" ? value : formData.filtre_prix_max;
+
+      setFormData({ ...formData, [name]: updatedprix_max });
+    }
+    
+    if (name === "filtre_unite") {
+      const updatedUnite = name === "filtre_unite" ? value : formData.filtre_unite;
+
+      setFormData({ ...formData, [name]: updatedUnite });
+    }
+
+    if (name === "filtre_categorie") {
+      const updatedcategorie = name === "filtre_categorie" ? value : formData.filtre_categorie;
+
+      setFormData({ ...formData, [name]: updatedcategorie });
+    }
+
+    if (name === "filtre_type_produit") {
+      const updatedtype_produit = name === "filtre_type_produit" ? value : formData.filtre_type_produit;
+
+      setFormData({ ...formData, [name]: updatedtype_produit });
+    }
   };
   
   // SUPPRESSION
@@ -127,6 +184,8 @@ function ListProduit() {
     minCommande: '',
     delaisLivraison: '',
     categorie: { id: '' },
+    localisation: '',
+    region: { id: '' },
     files: []
   });
 
@@ -139,6 +198,8 @@ function ListProduit() {
       setNewProductData({ ...newProductData, unite: { id: value } });
     } else if (name === 'id_categorie') {
       setNewProductData({ ...newProductData, categorie: { id: value } });
+    } else if (name === 'id_region') {
+      setNewProductData({ ...newProductData, region: { id: value } });
     } else {
       setNewProductData({ ...newProductData, [name]: value });
     }
@@ -165,6 +226,8 @@ function ListProduit() {
       formData.append('min_commande', newProductData.minCommande);
       formData.append('delais_livraison', newProductData.delaisLivraison);
       formData.append('id_categorie', newProductData.categorie.id);
+      formData.append('localisation', newProductData.localisation);
+      formData.append('id_region', newProductData.region.id);
 
       if (newProductData.files && newProductData.files.length > 0) {
         for (let i = 0; i < newProductData.files.length; i++) {
@@ -172,7 +235,7 @@ function ListProduit() {
         }
       }      
 
-      const response = await axios.post('https://back-endmarche-production.up.railway.app/produit/save', formData, {
+      const response = await axios.post('http://localhost:8080/produit/save', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
@@ -192,80 +255,10 @@ function ListProduit() {
     }
   };
 
-  // FILTRE
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const params = new URLSearchParams({
-        filtre_nom: formData.filtre_nom,
-        filtre_prix_min: formData.filtre_prix_min,
-        filtre_prix_max: formData.filtre_prix_max,
-        filtre_unite: formData.filtre_unite,
-        filtre_categorie: formData.filtre_categorie,
-        filtre_type_produit: formData.filtre_type_produit
-    });
-
-    axios.get(`https://back-endmarche-production.up.railway.app/produit/all?${params.toString()}`, {
-        headers: {
-            Authorization: `Bearer ${Cookie.getItem("token")}`
-        }
-    })
-    .then((response) => {
-      const rawProduits = response.data.data[0];
-      const transformedProduits = rawProduits.map(produit => ({
-        id: produit.id,
-        nom: produit.nom,
-        prix: produit.prix,
-        description: produit.description,
-        minCommande: produit.minCommande,
-        delaisLivraison: produit.delaisLivraison,
-        id_unite: produit.unite.id,
-        nom_unite: produit.unite.nom,
-        id_categorie: produit.categorie.id,
-        nom_categorie: produit.categorie.nom
-      }));
-      setProduits(transformedProduits);
-
-      setTotalPages(response.data.data[1]);
-
-      const rawCategorie = response.data.data[2];
-      const transformedCategorie = rawCategorie.map(categorie => ({
-        id: categorie.id,
-        nom: categorie.nom,
-      }));
-      setCategories(transformedCategorie);
-
-      const rawUnite = response.data.data[3];
-      const transformedUnite = rawUnite.map(unite => ({
-        id: unite.id,
-        nom: unite.nom,
-      }));
-      setUnites(transformedUnite);
-
-      const rawTypeProduit = response.data.data[4];
-      const transformedTypeProduit = rawTypeProduit.map(typeProduit => ({
-        id: typeProduit.id,
-        nom: typeProduit.nom,
-      }));
-      setTypeProduits(transformedTypeProduit);
-
-      setNoPage(response.data.data[5]);
-
-      setSort(response.data.data[6]);
-
-      setColumn(response.data.data[7]);
-      
-      console.log(response.data.data[0])
-    })
-    .catch((error) => {
-        console.error(error);
-    });
-};
-
 // TRIAGE
 const handleSort = async (sortOrder, columnName) => {
   try {
-    const token = Cookie.getItem("token");
+    const token = sessionStorage.getItem("token");
     const params = new URLSearchParams({
         column: columnName,
         sort: sortOrder,
@@ -277,7 +270,7 @@ const handleSort = async (sortOrder, columnName) => {
         filtre_type_produit: formData.filtre_type_produit
     });
 
-    const response = await axios.get(`https://back-endmarche-production.up.railway.app/produit/all?${params.toString()}`, {
+    const response = await axios.get(`http://localhost:8080/produit/all?${params.toString()}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -295,11 +288,16 @@ const handleSort = async (sortOrder, columnName) => {
         id_unite: produit.unite.id,
         nom_unite: produit.unite.nom,
         id_categorie: produit.categorie.id,
-        nom_categorie: produit.categorie.nom
+        nom_categorie: produit.categorie.nom,
+        localisation: produit.localisation,
+        id_region: produit.region.id,
+        nom_region: produit.region.nom
     }));
     setProduits(transformedProduits);
 
     setTotalPages(response.data.data[1]);
+
+    console.log("triage ", transformedProduits);
 
     const rawCategorie = response.data.data[2];
     const transformedCategorie = rawCategorie.map(categorie => ({
@@ -322,6 +320,13 @@ const handleSort = async (sortOrder, columnName) => {
     }));
     setTypeProduits(transformedTypeProduit);
 
+    const rawRegion = response.data.data[4];
+    const transformedRegion = rawRegion.map(region => ({
+      id: region.id,
+      nom: region.nom,
+    }));
+    setRegions(transformedRegion);
+
     setNoPage(response.data.data[5]);
 
     setSort(response.data.data[6]);
@@ -335,7 +340,7 @@ const handleSort = async (sortOrder, columnName) => {
 // PAGINATION
 const handlePagination = async (pageNumber) => {
   try {
-    const token = Cookie.getItem("token");
+    const token = sessionStorage.getItem("token");
     const params = new URLSearchParams({
       noPage: pageNumber,
       sort: sort,
@@ -348,7 +353,7 @@ const handlePagination = async (pageNumber) => {
       filtre_type_produit: formData.filtre_type_produit
     });
 
-    const response = await axios.get(`https://back-endmarche-production.up.railway.app/produit/all?${params.toString()}`, {
+    const response = await axios.get(`http://localhost:8080/produit/all?${params.toString()}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -365,7 +370,10 @@ const handlePagination = async (pageNumber) => {
         id_unite: produit.unite.id,
         nom_unite: produit.unite.nom,
         id_categorie: produit.categorie.id,
-        nom_categorie: produit.categorie.nom
+        nom_categorie: produit.categorie.nom,
+        localisation: produit.localisation,
+        id_region: produit.region.id,
+        nom_region: produit.region.nom
     }));
     setProduits(transformedProduits);
 
@@ -381,14 +389,20 @@ const handlePagination = async (pageNumber) => {
 };
 
 
+if (!produits) {
+  return <Loading />
+}
+
   return (
     <div className="d-flex flex-column min-vh-100">
       <div className="mb-5">
-          <Header />
+        <Header refresh={refresh} />
       </div>
-      <div className="container mt-5 mb-5">
-        <div className="page-content">
-          <div className="container-fluid">
+      <div className="mt-5 mb-5">
+        <Navbar />
+        <div className="mt-5" style={{ marginLeft: "340px", maxWidth: "1500px" }}>
+          <div className="min-vh-100">
+            <div className="container-fluid">
 
             <div className="row mt-4">
               <div className="w-auto">
@@ -399,7 +413,6 @@ const handlePagination = async (pageNumber) => {
                   <div className="card-body">
                     <div className="live-preview">
                       <div className="row g-4 mb-3">
-                        <form onSubmit={handleSubmit}>
                           <div className="d-flex flex-wrap">
                             <div className="me-1 mt-2">
                               <input type="text" name="filtre_nom" className="form-control w-auto" placeholder="Entrez le nom" value={formData.filtre_nom} onChange={handleInputChange} />
@@ -434,11 +447,7 @@ const handlePagination = async (pageNumber) => {
                                 ))}
                               </select>
                             </div>
-                            <div className="mt-2">
-                              <button type="submit" className="btn btn-primary bg-gradient">Filtrer</button>
-                            </div>
                           </div>
-                        </form>
                       </div>
                     </div>
                   </div>
@@ -469,7 +478,7 @@ const handlePagination = async (pageNumber) => {
                             <tr>
                               <th scope="col">
                                 #
-                                <a href="#" onClick={() => handleSort(sort + 1, "id")}>
+                                <a href="#" onClick={() => handleSort(sort + 1, "p.id")}>
                                 <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
                                 </a>
                               </th>
@@ -480,7 +489,7 @@ const handlePagination = async (pageNumber) => {
                                 </a>
                               </th>
                               <th scope="col">
-                                Prix
+                                Prix (Ar)
                                 <a href="#" onClick={() => handleSort(sort + 1, "prix")}>
                                 <i className="fas fa-sort" style={{ float: "right", color: "grey"}}></i>
                                 </a>
@@ -509,17 +518,20 @@ const handlePagination = async (pageNumber) => {
                               key={product.id}
                               onDelete={handleDelete}
                               onUpdate={handleUpdate}
+                              regions={regions}
                             />
                           ))}
                           </tbody>
                         </table>
                       </div>
+                      <div className='d-flex justify-content-end mt-3'>
                       <Pagination 
                         noPage={noPage} 
                         totalPages={totalPages}
-                        baseUrl="https://back-endmarche-production.up.railway.app/produit/all"
+                        baseUrl="http://localhost:8080/produit/all"
                         onPageChange={handlePagination}
                       />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -607,6 +619,29 @@ const handlePagination = async (pageNumber) => {
                     ))}
                   </Form.Control>
                 </Form.Group>
+                <Form.Group controlId="formLocalisation">
+                  <Form.Label>Localisation</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="localisation"
+                    value={newProductData.localisation}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+                <Form.Group controlId="formRegion">
+                  <Form.Label>Région</Form.Label>
+                  <Form.Control
+                    as="select"
+                    name="id_region"
+                    value={newProductData.region.id}
+                    onChange={handleChange}
+                  >
+                    <option value="">Sélectionnez une région</option>
+                    {regions.map((reg) => (
+                      <option key={reg.id} value={reg.id}>{reg.nom}</option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
                 <Form.Group controlId="formFiles">
                   <Form.Label>Importer des photos</Form.Label>
                   <Form.Control
@@ -628,9 +663,11 @@ const handlePagination = async (pageNumber) => {
             </Modal.Footer>
           </Modal>
           </div>
+          </div>
+          <Footer />
         </div>
       </div>
-      <Footer />
+      
     </div>
   );
 }

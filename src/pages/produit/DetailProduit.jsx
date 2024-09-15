@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import Cookie from "js-cookies";
 import { useNavigate, useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -15,21 +14,15 @@ import 'swiper/css/scrollbar';
 import 'swiper/css/zoom';
 import 'swiper/css/effect-coverflow';
 import '../../assets/detailProduit.css';
+import Loading from "../../components/Loading";
 
 const DetailProduit = () => {
   const { id } = useParams();
-  const [nom, setNom] = useState();
-  const [description, setDescription] = useState();
-  const [prix, setPrix] = useState();
-  const [minCommande, setMinCommande] = useState();
-  const [delaisLivraison, setDelaisLivraison] = useState();
-  const [categorie, setCategorie] = useState();
-  const [unite, setUnite] = useState();
-
-
+  const [produits, setProduits] = useState();
+  const [stock, setStock] = useState(0);
   const[produitPhotos, setProduitPhotos] = useState([]);
   const navigate = useNavigate();
-  const token = Cookie.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
     if (!token) {
@@ -39,20 +32,15 @@ const DetailProduit = () => {
   
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`https://back-endmarche-production.up.railway.app/produit/get/${id}`, {
+        const response = await axios.get(`http://localhost:8080/produit/get/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`
           },
           withCredentials: true
         });
-        setNom(response.data.data[0]);
-        setDescription(response.data.data[1]);
-        setPrix(response.data.data[2]);
-        setMinCommande(response.data.data[3]);
-        setDelaisLivraison(response.data.data[4]);
-        setCategorie(response.data.data[5]);
-        setUnite(response.data.data[6]);
-        setProduitPhotos(response.data.data[7]);
+        setProduits(response.data.data[0]);
+        setProduitPhotos(response.data.data[1]);
+        setStock(response.data.data[2]);
       } catch (error) {
         console.error("Erreur lors de la récupération du produit:", error);
       }
@@ -61,6 +49,11 @@ const DetailProduit = () => {
   
     fetchProduct();
   }, [id, navigate, token]);
+
+  
+  if (!produits && !stock) {
+    return <Loading />
+  }
 
   return (
     <div>
@@ -101,7 +94,7 @@ const DetailProduit = () => {
                       <SwiperSlide key={index}>
                         <img
                           src={`data:${photo.mimeType};base64,${photo.base64}`}
-                          alt={nom}
+                          alt={produits.nom}
                           className="img-fluid d-block"
                         />
                       </SwiperSlide>
@@ -114,13 +107,13 @@ const DetailProduit = () => {
             <div className="row mt-4">
               <div className="row mt-4">
                 <div className="col-lg-12">
-                  <h1 className="text-center">{nom}</h1>
+                  <h1 className="text-center text-uppercase">{produits.nom}</h1>
                 </div>
               </div>
               <div className="row mt-4">
                 <div className="col-lg-5 offset-lg-1">
                   <h3>Description</h3>
-                  <p>{description}</p>
+                  <p>{produits.description}</p>
                 </div>
                 <div className="col-lg-5 offset-lg-1">
                   <h3>Détails</h3>
@@ -137,7 +130,7 @@ const DetailProduit = () => {
                             Prix :
                           </p>
                           <h5 className="mb-0">
-                          {prix} Ar
+                          {produits.prix.toLocaleString('fr-FR')} Ar
                           </h5>
                         </div>
                       </div>
@@ -156,7 +149,7 @@ const DetailProduit = () => {
                             Unite :
                           </p>
                           <h5 className="mb-0">
-                          {unite}
+                          {produits.unite.nom}
                           </h5>
                         </div>
                       </div>
@@ -175,7 +168,7 @@ const DetailProduit = () => {
                             Stock :
                           </p>
                           <h5 className="mb-0">
-                          25
+                          {stock.toLocaleString('fr-FR')}
                           </h5>
                         </div>
                       </div>
@@ -194,7 +187,7 @@ const DetailProduit = () => {
                             Catégorie :
                           </p>
                           <h5 className="mb-0">
-                          {categorie}
+                          {produits.categorie.nom}
                           </h5>
                         </div>
                       </div>
@@ -205,14 +198,14 @@ const DetailProduit = () => {
                   </h5>
                   <ul style={{ paddingLeft: '20px', lineHeight: '1.7', color: '#555' }}>
                     <li style={{ marginBottom: '10px' }}>
-                      <strong>Minimum de commande :</strong> {minCommande}
+                      <strong>Minimum de commande :</strong> {produits.minCommande}
                     </li>
                     <li>
-                      <strong>Délais de livraison :</strong> {delaisLivraison} j
+                      <strong>Délais de livraison :</strong> {produits.delaisLivraison} j
                     </li>
                   </ul>
                 </div>
-                
+
                 <div className="text-start mb-5">
                   <button
                     type="button"

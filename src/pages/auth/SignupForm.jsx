@@ -4,7 +4,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import Stepper from "../../components/Stepper";
 import axios from "axios";
 import Footer from "../../components/Footer";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function SignupForm() {
   const [step, setStep] = useState(1);
@@ -73,6 +73,9 @@ function SignupForm() {
       const updatedPassword = name === "password" ? value : formData.password;
       const updatedPass = name === "pass" ? value : formData.pass;
 
+      console.log("password ", updatedPassword);
+      console.log("pass ", updatedPass);
+
       if (updatedPassword !== updatedPass) {
         setPasswordError("Les mots de passe ne correspondent pas");
       } else {
@@ -107,7 +110,7 @@ function SignupForm() {
     const fetchTypeProduction = async () => {
       try {
         const response = await axios.get(
-          "https://back-endmarche-production.up.railway.app/type-production/all",
+          "http://localhost:8080/type-production/all",
           {}
         );
         const rawType = response.data.data[0];
@@ -142,9 +145,10 @@ function SignupForm() {
     formDataToSend.append("contact", formData.contact);
     formDataToSend.append("localisation", formData.adresse);
 
+    console.log(formDataToSend);
     try {
       const response = await axios.post(
-        "https://back-endmarche-production.up.railway.app/user/signup",
+        "http://localhost:8080/user/signup",
         formDataToSend,
         {
           headers: {
@@ -168,9 +172,6 @@ function SignupForm() {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      {/* <div className="mb-5">
-        <Header />
-      </div> */}
       <div className="container mt-5 mb-5 d-flex justify-content-center">
         <div
           className="w-70 mt-5 p-5"

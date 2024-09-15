@@ -1,4 +1,4 @@
-import React from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Pagination({ noPage, totalPages, onPageChange }) {
   const handlePageChange = (pageNumber) => {
@@ -7,40 +7,38 @@ function Pagination({ noPage, totalPages, onPageChange }) {
   };
 
   return (
-    <div className="d-flex justify-content-end mt-3">
-      <div className="pagination-wrap hstack gap-2">
-        {/* Bouton Précédent */}
-        <button
-          className={`btn ${noPage === 1 ? "disabled" : ""}`}
-          onClick={() => handlePageChange(noPage - 1)}
-          disabled={noPage === 1}
-        >
-          Précédent
-        </button>
+    <div className="pagination-wrap d-flex justify-content-center align-items-center gap-2">
+      {/* Bouton Précédent */}
+      <button
+        className={`btn btn-sm ${noPage === 1 ? "btn-secondary disabled" : "btn-success"}`}
+        onClick={() => handlePageChange(noPage - 1)}
+        disabled={noPage === 1}
+      >
+        <i className="bi bi-arrow-left"></i> Précédent
+      </button>
 
-        {/* Numéros de page */}
-        <ul className="pagination mb-0">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <li key={i + 1} className={`page-item ${i + 1 === noPage ? "active" : ""}`}>
-              <button 
-                className="page-link" 
-                onClick={() => handlePageChange(i + 1)}
-              >
-                {i + 1}
-              </button>
-            </li>
-          ))}
-        </ul>
+      {/* Numéros de page */}
+      <ul className="pagination mb-0">
+        {Array.from({ length: totalPages }, (_, i) => (
+          <li key={i + 1} className={`page-item ${i + 1 === noPage ? "active" : ""}`}>
+            <button 
+              className={`page-link ${i + 1 === noPage ? "bg-success text-white border-success" : ""}`}
+              onClick={() => handlePageChange(i + 1)}
+            >
+              {i + 1}
+            </button>
+          </li>
+        ))}
+      </ul>
 
-        {/* Bouton Suivant */}
-        <button
-          className={`btn ${noPage === totalPages ? "disabled" : ""}`}
-          onClick={() => handlePageChange(noPage + 1)}
-          disabled={noPage === totalPages}
-        >
-          Suivant
-        </button>
-      </div>
+      {/* Bouton Suivant */}
+      <button
+        className={`btn btn-sm ${noPage === totalPages ? "btn-secondary disabled" : "btn-success"}`}
+        onClick={() => handlePageChange(noPage + 1)}
+        disabled={noPage === totalPages}
+      >
+        Suivant <i className="bi bi-arrow-right"></i>
+      </button>
     </div>
   );
 }

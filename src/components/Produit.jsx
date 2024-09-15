@@ -1,12 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Cookie from 'js-cookies';
 import { Button, Modal, Form } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
+import Loading from './Loading';
 
-function Produit({ produit, categories, unites, onDelete, onUpdate }) {
+function Produit({ produit, categories, unites, regions, onDelete, onUpdate }) {
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [showModalEdit, setShowModalEdit] = useState(false);
   const [editData, setEditData] = useState({
@@ -16,7 +14,9 @@ function Produit({ produit, categories, unites, onDelete, onUpdate }) {
     unite: { id: '' },
     minCommande: '',
     delaisLivraison: '',
-    categorie: { id: '' }
+    categorie: { id: '' },
+    localisation: '',
+    region: { id : '' }
   });
 
   // Charger les données du produit dans editData lorsque le modal est ouvert
@@ -29,15 +29,17 @@ function Produit({ produit, categories, unites, onDelete, onUpdate }) {
         unite: { id: produit.id_unite },
         minCommande: produit.minCommande,
         delaisLivraison: produit.delaisLivraison,
-        categorie: { id: produit.id_categorie }
+        categorie: { id: produit.id_categorie },
+        localisation: produit.localisation,
+        region: { id: produit.id_region }
       });
     }
   }, [showModalEdit, produit]);
 
   const handleDelete = async () => {
     try {
-      const token = Cookie.getItem("token");
-      const response = await axios.delete(`https://back-endmarche-production.up.railway.app/produit/delete/${produit.id}`, {
+      const token = sessionStorage.getItem("token");
+      const response = await axios.delete(`http://localhost:8080/produit/delete/${produit.id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -54,9 +56,9 @@ function Produit({ produit, categories, unites, onDelete, onUpdate }) {
 
   const handleEdit = async () => {
     try {
-      const token = Cookie.getItem("token");
+      const token = sessionStorage.getItem("token");
 
-      const response = await axios.put(`https://back-endmarche-production.up.railway.app/produit/update/${produit.id}`, editData, {
+      const response = await axios.put(`http://localhost:8080/produit/update/${produit.id}`, editData, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -75,8 +77,7 @@ function Produit({ produit, categories, unites, onDelete, onUpdate }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
-    // Mise à jour conditionnelle des objets unite et categorie
+
     if (name === 'id_unite') {
       setEditData({ ...editData, unite: { id: value } });
     } else if (name === 'id_categorie') {
@@ -86,12 +87,17 @@ function Produit({ produit, categories, unites, onDelete, onUpdate }) {
     }
   };
 
+  
+  if (!produit) {
+    return <Loading />
+  }
+  
   return (
     <>
       <tr>
-        <td>{produit.id}</td>
+        <td></td>
         <td>{produit.nom}</td>
-        <td>{produit.prix}</td>
+        <td>{produit.prix.toLocaleString('fr-FR')}</td>
         <td>{produit.nom_unite}</td>
         <td>{produit.nom_categorie}</td>
         <td>
@@ -212,6 +218,29 @@ function Produit({ produit, categories, unites, onDelete, onUpdate }) {
                 <option value="">Sélectionnez une catégorie</option>
                 {categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>{cat.nom}</option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group controlId="formLocalisation">
+              <Form.Label>Localisation</Form.Label>
+              <Form.Control
+                type="text"
+                name="localisation"
+                value={editData.localisation}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="formCategorie">
+              <Form.Label>Région</Form.Label>
+              <Form.Control
+                as="select"
+                name="id_region"
+                value={editData.region.id}  // Modification ici
+                onChange={handleChange}
+              >
+                <option value="">Sélectionnez une région</option>
+                {regions.map((reg) => (
+                  <option key={reg.id} value={reg.id}>{reg.nom}</option>
                 ))}
               </Form.Control>
             </Form.Group>

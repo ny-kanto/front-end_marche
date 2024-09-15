@@ -1,103 +1,167 @@
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";  // Import useLocation
+import "bootstrap/dist/css/bootstrap.min.css";
+import "remixicon/fonts/remixicon.css";
+import "../assets/navbar.css";
 
 function Navbar() {
+  const [isStockOpen, setIsStockOpen] = useState(false);
+
+  const location = useLocation();
+
+  const toggleStock = () => {
+    setIsStockOpen(!isStockOpen);
+  };
+
   return (
-    <div className="app-menu navbar-menu">
-      {/* LOGO */}
-      <div className="navbar-brand-box">
-        {/* Dark Logo*/}
-        <NavLink to="/index.html" className="logo logo-dark">
-          <span className="logo-sm">
-            <img src="/assets/images/logo-sm.png" alt="" height="22" />
-          </span>
-          <span className="logo-lg">
-            <img src="/assets/logo-dark.png" alt="" height="40" />
-          </span>
-        </NavLink>
-        {/* Light Logo */}
-        <NavLink to="/index.html" className="logo logo-light">
-          <span className="logo-sm">
-            <img src="/assets/images/logo-sm.png" alt="" height="22" />
-          </span>
-          <span className="logo-lg">
-            <img src="/assets/logo-light.png" alt="" height="40" />
-          </span>
-        </NavLink>
-        <button
-          type="button"
-          className="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
-          id="vertical-hover"
-        >
-          <i className="ri-record-circle-line"></i>
-        </button>
+    <div className="sidebar p-4">
+      <div className="menu-section">
+        <h6 className="menu-title text-uppercase">Menu</h6>
+        <ul className="navbar-nav">
+          <li className="nav-item mb-2">
+            <a
+              href="/front-end_marche/dashboard"
+              className={`nav-link d-flex align-items-center ${
+                location.pathname === "/dashboard" ? "text-warning" : ""
+              }`}
+            >
+              <i className="ri-dashboard-line me-3"></i> Dashboards
+            </a>
+          </li>
+          <li className="nav-item mb-2">
+            <a
+              href="#"
+              className={`nav-link d-flex align-items-center ${
+                location.pathname === "/apps" ? "active" : ""
+              }`}
+            >
+              <i className="ri-apps-2-line me-3"></i> Apps
+            </a>
+          </li>
+          <li className="nav-item mb-2">
+            <a
+              href="#"
+              className={`nav-link d-flex align-items-center ${
+                location.pathname === "/layouts" ? "active" : ""
+              }`}
+            >
+              <i className="ri-layout-grid-line me-3"></i> Layouts
+              <span className="badge bg-danger ms-2">Hot</span>
+            </a>
+          </li>
+        </ul>
       </div>
 
-      <div id="scrollbar">
-        <div className="container-fluid">
-          <div id="two-column-menu"></div>
-          <ul className="navbar-nav" id="navbar-nav">
-            <li className="menu-title">
-              <i className="ri-more-fill"></i>{" "}
-              <span data-key="t-pages">Pages</span>
-            </li>
+      <div className="menu-section mt-4">
+        <h6 className="menu-title text-uppercase">Pages</h6>
+        <ul className="navbar-nav">
+          <li className="nav-item mb-2">
+            <a
+              href="/front-end_marche/product/list"
+              className={`nav-link d-flex align-items-center ${
+                location.pathname === "/product/list"
+                  ? "text-warning"
+                  : ""
+              }`}
+            >
+              <i className="ri-pages-line me-3"></i> Produits
+            </a>
+          </li>
+          <li className="nav-item mb-2">
+            <a
+              className="nav-link d-flex align-items-center"
+              href="#"
+              role="button"
+              onClick={toggleStock}
+            >
+              <i className="ri-file-list-3-line me-3"></i> Stock
+              <i
+                className={`ri-arrow-${
+                  isStockOpen ? "up" : "down"
+                }-s-line ms-auto`}
+              ></i>
+            </a>
 
-            <li className="nav-item">
-              <a
-                className="nav-link menu-link"
-                href="#sidebarPages"
-                data-bs-toggle="collapse"
-                role="button"
-                aria-expanded="false"
-                aria-controls="sidebarPages"
-              >
-                <i className="ri-pages-line"></i>{" "}
-                <span data-key="t-pages">Classements</span>
-              </a>
-              <div className="collapse menu-dropdown" id="sidebarPages">
-                <ul className="nav nav-sm flex-column">
-                  <li className="nav-item">
-                    <NavLink
-                      to="/user/classement/list"
-                      className="nav-link"
-                      data-key="t-starter"
-                    >
-                      Général
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink
-                      to="/user/classement-etape/list"
-                      className="nav-link"
-                      data-key="t-starter"
-                    >
-                      Étape
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink
-                      to="/user/classement-equipe/list"
-                      className="nav-link"
-                      data-key="t-starter"
-                    >
-                      Équipe
-                    </NavLink>
-                  </li>
-                </ul>
-              </div>
-            </li>
-
-            <li className="nav-item">
-              <NavLink to="/user/etape/list" className="nav-link menu-link">
-                <i className="ri-file-list-3-line"></i>{" "}
-                <span data-key="t-forms">Étapes</span>
-              </NavLink>
-            </li>
-          </ul>
-        </div>
-        {/* Sidebar */}
+            <div
+              className={`menu-dropdown ${isStockOpen ? "show" : ""}`}
+              style={{ paddingLeft: "20px" }}
+            >
+              <ul className="nav nav-sm flex-column">
+                <li className="nav-item mb-2">
+                  <a
+                    href="/front-end_marche/product-stock/entree"
+                    className={`nav-link ${
+                      location.pathname === "/product-stock/entree"
+                        ? "text-warning"
+                        : ""
+                    }`}
+                  >
+                    - Entrée
+                  </a>
+                </li>
+                <li className="nav-item mb-2">
+                  <a
+                    href="/front-end_marche/product-stock/etat"
+                    className={`nav-link ${
+                      location.pathname === "/product-stock/etat"
+                        ? "text-warning"
+                        : ""
+                    }`}
+                  >
+                    - Etat de stock
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li className="nav-item mb-2">
+            <a
+              href="#"
+              className={`nav-link d-flex align-items-center ${
+                location.pathname === "/landing" ? "active" : ""
+              }`}
+            >
+              <i className="ri-global-line me-3"></i> Landing
+            </a>
+          </li>
+        </ul>
       </div>
 
-      <div className="sidebar-background"></div>
+      <div className="menu-section mt-4">
+        <h6 className="menu-title text-uppercase">Components</h6>
+        <ul className="navbar-nav">
+          <li className="nav-item mb-2">
+            <a
+              href="#"
+              className={`nav-link d-flex align-items-center ${
+                location.pathname === "/base-ui" ? "active" : ""
+              }`}
+            >
+              <i className="ri-shape-line me-3"></i> Base UI
+            </a>
+          </li>
+          <li className="nav-item mb-2">
+            <a
+              href="#"
+              className={`nav-link d-flex align-items-center ${
+                location.pathname === "/advance-ui" ? "active" : ""
+              }`}
+            >
+              <i className="ri-stack-line me-3"></i> Advance UI
+            </a>
+          </li>
+          <li className="nav-item mb-2">
+            <a
+              href="#"
+              className={`nav-link d-flex align-items-center ${
+                location.pathname === "/widgets" ? "active" : ""
+              }`}
+            >
+              <i className="ri-pantone-line me-3"></i> Widgets
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

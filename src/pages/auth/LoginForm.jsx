@@ -1,53 +1,60 @@
 import { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import Cookie from 'js-cookies';
-import Footer from '../../components/Footer';
+import Footer from "../../components/Footer";
 
 function LoginForm() {
   const [formData, setFormData] = useState({
-      email: "johndoe@gmail.com",
-      password: "123",
+    email: "nykantorandri@gmail.com",
+    password: "123",
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  
+
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
   const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormData({ ...formData, [name]: value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (e) => {
-      e.preventDefault();
-      console.log("E-mail : " + formData.email + "; password : " + formData.password);
-      
-      axios.post('https://back-endmarche-production.up.railway.app/rest/auth/login', {
+    e.preventDefault();
+    setError("");
+
+    axios
+      .post("http://localhost:8080/rest/auth/login", {
         email: formData.email,
-        password: formData.password
+        password: formData.password,
       })
       .then((response) => {
-        console.log("Response Data: ", response.data);
-        Cookie.setItem("token", response.data.token);
-        Cookie.setItem("email", response.data.email);
-        navigate('/product/list');
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("email", response.data.email);
+
+        if (response.data.role === "USER_ACHETEUR") {
+          navigate("/product-user/list");
+        } else if (response.data.role === "USER_VENDEUR") {
+          navigate("/dashboard");
+        }
       })
       .catch((error) => {
+        if (error.response && error.response.data) {
+          setError(error.response.data.message);
+        } else {
+          setError("Une erreur est survenue lors de la connexion.");
+        }
         console.error("Login Error: ", error.response ? error.response.data : error.message);
       });
   };
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      {/* <div className="mb-5">
-        <Header />
-      </div> */}
       <div className="container mt-5 mb-5 d-flex justify-content-center">
         <div
           className="col-md-6 mt-5 p-5"
@@ -61,7 +68,6 @@ function LoginForm() {
 
           <form onSubmit={handleSubmit}>
             <div className="form-group mb-5">
-                {/* Step 1 Content */}
               <div className="row g-3 mt-1">
                 <div className="col-md-12">
                   <div className="form-floating form-floating-outline">
@@ -70,10 +76,11 @@ function LoginForm() {
                       className="form-control"
                       id="email"
                       name="email"
-                      placeholder='E-mail'
+                      placeholder="E-mail"
                       value={formData.email}
                       onChange={handleInputChange}
-                      required />
+                      required
+                    />
                     <label htmlFor="email">E-mail</label>
                   </div>
                 </div>
@@ -95,13 +102,27 @@ function LoginForm() {
                       />
                       <label htmlFor="password">Mot de passe</label>
                     </div>
-                    <span className="input-group-text" onClick={toggleShowPassword} style={{ cursor: 'pointer' }}>
-                      <i className={`fa ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`} aria-hidden="true"></i>
+                    <span
+                      className="input-group-text"
+                      onClick={toggleShowPassword}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <i
+                        className={`fa ${showPassword ? "fa-eye" : "fa-eye-slash"}`}
+                        aria-hidden="true"
+                      ></i>
                     </span>
                   </div>
                 </div>
               </div>
             </div>
+
+            {error && (
+              <div className="alert alert-danger mt-3" role="alert">
+                {error}
+              </div>
+            )}
+
             <div className="d-flex justify-content-center mt-4">
               <button type="submit" className="btn btn-primary">
                 SE CONNECTER
