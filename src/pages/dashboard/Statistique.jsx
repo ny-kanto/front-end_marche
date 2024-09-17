@@ -30,7 +30,29 @@ ChartJS.register(
 function Statistique() {
   const [chartData, setChartData] = useState(null);
   const [stat, setStat] = useState([]);
-  const [produits, setProduits] = useState([]);
+  const [produits, setProduits] = useState([
+    {
+      id: 0,
+      nom: "",
+      description: "",
+      prix: 0,
+      minCommande: 0,
+      delaisLivraison: 0,
+      new: false,
+      localisation: "",
+      averageRating: 0,
+      totalCount: 0,
+      dateAjout: "",
+      categorie: {},
+      personne: {},
+      unite: {},
+      region: {},
+    },
+  ]);
+  const currentYear = new Date().getFullYear();
+  const [idProduit, setIdProduit] = useState(0);
+  const [annees, setAnnees] = useState([currentYear]);
+  const [annee, setAnnee] = useState();
 
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
@@ -41,13 +63,13 @@ function Statistique() {
           "http://localhost:8080/statistique/all",
           {
             headers: { Authorization: `Bearer ${token}` },
-            params: { idProduit: 1, annee: 2024 },
+            params: { idProduit: idProduit, annee: annee },
             withCredentials: true,
           }
         );
-  
+
         const stats = response.data.data[0];
-        
+
         const monthOrder = [
           "Janvier",
           "Février",
@@ -62,8 +84,7 @@ function Statistique() {
           "Novembre",
           "Décembre",
         ];
-  
-        // Utilisation de monthOrder pour forcer l'ordre des mois
+
         const orderedStats = monthOrder.map((month) => {
           const stat = stats.find((s) => s.mois === month);
           return {
@@ -72,14 +93,10 @@ function Statistique() {
             nomProduit: stat ? stat.nomProduit : "",
             nomUnite: stat ? stat.nomUnite : "",
             totalVendus: stat ? stat.totalVendus : 0,
-            annee: stat ? stat.annee : 2024, // par défaut à 2024 si aucune donnée
+            annee: stat ? stat.annee : currentYear,
           };
         });
 
-        console.log("stat : ", stat);
-        console.log("stats : ", stats);
-  
-        // Mise à jour du graphique avec les données ordonnées
         setChartData({
           labels: monthOrder,
           datasets: [
@@ -91,12 +108,13 @@ function Statistique() {
             },
           ],
         });
-  
-        setProduits(response.data.data[1]);
-        setStat(orderedStats); // Utilise les statistiques ordonnées pour la table
 
-        console.log("ordered : ", orderedStats);
-  
+        setProduits(response.data.data[1]);
+        setStat(orderedStats);
+        setAnnees(response.data.data[2]);
+
+        console.log("data 1 : ", response.data.data[1]);
+        console.log("data 2 : ", response.data.data[2]);
       } catch (error) {
         if (error.response && error.response.status === 403) {
           navigate("/error/403");
@@ -107,10 +125,9 @@ function Statistique() {
         }
       }
     };
-  
+
     fetchData();
-  }, [token, navigate]);
-  
+  }, [idProduit, annee, token, navigate]); // Ajout de idProduit dans les dépendances
 
   const cardColor = "#ffffff"; // Couleur de fond de la carte
   const borderColor = "#e0e0e0"; // Couleur de la bordure
@@ -172,6 +189,15 @@ function Statistique() {
     },
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name == "id_produit") {
+      setIdProduit(value);
+    } else if (name == "annee") {
+      setAnnee(value);
+    }
+  };
+
   return (
     <div className="d-flex flex-column min-vh-100">
       <div className="mb-5">
@@ -184,63 +210,124 @@ function Statistique() {
           style={{ marginLeft: "340px", maxWidth: "1500px" }}
         >
           <div className="row mb-4 min-vh-100">
-            <div className="col-12">
-              <div className="card">
-                <div className="card-header header-elements">
-                  <div>
-                    <h5 className="card-title mb-0">Statistics</h5>
-                    <small className="text-muted">
-                      Commercial networks and enterprises
-                    </small>
+            <div className="row">
+              <div className="col-12">
+                <div
+                  className="card"
+                  style={{
+                    border: "none",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                  }}
+                >
+                  <div className="card-header header-elements d-flex flex-wrap">
+                    <div className="me-1 mt-2">
+                      <select
+                        className="form-select w-auto me-1"
+                        aria-label="Produit"
+                        name="id_produit"
+                        value={idProduit}
+                        onChange={handleChange}
+                      >
+                        <option value="">Produit</option>
+                        {produits.map((prod) => (
+                          <option key={prod.id} value={prod.id}>
+                            {prod.nom}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="me-1 mt-2">
+                      <select
+                        className="form-select w-auto me-1"
+                        aria-label="Année"
+                        name="annee"
+                        value={annee}
+                        onChange={handleChange}
+                      >
+                        <option value="">Année</option>
+                        {annees.map((anneeObj) => (
+                          <option key={anneeObj} value={anneeObj}>
+                            {anneeObj}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
-                  <div className="card-header-elements ms-auto py-0">
-                    <h5 className="mb-0 me-3">$ 78,000</h5>
+
+                  <div
+                    className="card-body pt-2"
+                    style={{ height: "500px", position: "relative" }}
+                  >
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "0",
+                        right: "0",
+                        padding: "10px",
+                        fontWeight: "bold",
+                        fontSize: "30px"
+                      }}
+                    >
+                      {annee || currentYear}
+                    </div>
+
+                    {chartData ? (
+                      <Bar data={chartData} options={options} />
+                    ) : (
+                      <Loading />
+                    )}
                   </div>
-                </div>
-                <div className="card-body pt-2" style={{ height: "500px" }}>
-                  {chartData ? (
-                    <Bar data={chartData} options={options} />
-                  ) : (
-                    <Loading />
-                  )}
                 </div>
               </div>
             </div>
-            <div className="col-12">
-              <div className="card">
-                <div className="card-header align-items-center d-flex">
-                  <h4 className="card-title mb-0 flex-grow-1">Produit</h4>
-                </div>
-                <div className="card-body">
-                  <div className="live-preview">
-                    <div className="table-responsive modal-body-pdf">
-                      <table
-                        className="table align-middle table-nowrap mb-0"
-                        id="myTable"
-                      >
-                        <thead>
-                          <tr>
-                            <th scope="col">Produit</th>
-                            <th scope="col">Unité</th>
-                            <th scope="col">Total Vendus</th>
-                            <th scope="col">Total Ventes</th>
-                            <th scope="col">Mois</th>
-                            <th scope="col">Année</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {stat.map((st, index) => (
-                            <tr key={`${st.idProduit}-${index}`}>
-                              <td>{st.nomProduit}</td>
-                              <td>{st.nomUnite}</td>
-                              <td>{st.totalVendus}</td>
-                              <td>{st.totalVentes}</td>
-                              <td>{st.mois}</td>
-                              <td>{st.annee}</td>
+            <div className="row mt-5">
+              <div className="col-12">
+                <div
+                  className="card"
+                  style={{
+                    border: "none",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                  }}
+                >
+                  <div className="card-header align-items-center d-flex">
+                    <h4 className="card-title mb-0 flex-grow-1">Produit</h4>
+                  </div>
+                  <div className="card-body">
+                    <div className="live-preview">
+                      <div className="table-responsive modal-body-pdf">
+                        <table
+                          className="table align-middle table-nowrap mb-0"
+                          id="myTable"
+                        >
+                          <thead>
+                            <tr>
+                              <th scope="col">Produit</th>
+                              <th scope="col">Unité</th>
+                              <th scope="col">Total Vendus</th>
+                              <th scope="col">Total Ventes</th>
+                              <th scope="col">Mois</th>
+                              <th scope="col">Année</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {stat.map((st, index) => (
+                              <tr key={`${st.idProduit}-${index}`}>
+                                <td>{st.nomProduit}</td>
+                                <td>{st.nomUnite}</td>
+                                <td>
+                                  {st.totalVendus.toLocaleString("fr-FR")}
+                                </td>
+                                <td>
+                                  {st.totalVentes.toLocaleString("fr-FR")}
+                                </td>
+                                <td>{st.mois}</td>
+                                <td>{st.annee}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
