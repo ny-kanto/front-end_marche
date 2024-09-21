@@ -52,7 +52,7 @@ function Statistique() {
   const currentYear = new Date().getFullYear();
   const [idProduit, setIdProduit] = useState(0);
   const [annees, setAnnees] = useState([currentYear]);
-  const [annee, setAnnee] = useState();
+  const [annee, setAnnee] = useState(currentYear);
 
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
@@ -113,7 +113,9 @@ function Statistique() {
         setStat(orderedStats);
         setAnnees(response.data.data[2]);
 
-        console.log("data 1 : ", response.data.data[1]);
+        console.log("data 0 : ", response.data.data[0]);
+        // console.log("data 1 : ", response.data.data[1]);
+        console.log("stat : ", orderedStats);
         console.log("data 2 : ", response.data.data[2]);
       } catch (error) {
         if (error.response && error.response.status === 403) {
