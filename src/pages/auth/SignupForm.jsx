@@ -250,9 +250,8 @@ function SignupForm() {
                         style={{ cursor: "pointer" }}
                       >
                         <i
-                          className={`fa ${
-                            showPassword ? "fa-eye" : "fa-eye-slash"
-                          }`}
+                          className={`fa ${showPassword ? "fa-eye" : "fa-eye-slash"
+                            }`}
                           aria-hidden="true"
                         ></i>
                       </span>

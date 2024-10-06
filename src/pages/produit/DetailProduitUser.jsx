@@ -24,7 +24,7 @@ function DetailProduitUser() {
             <DetailProductUser onAddToCart={handleAddToCart} />
           </div>
         </div>
-      </div> 
+      </div>
       <Footer />
     </div>
   );

@@ -7,12 +7,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../../components/Loading";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
+  PointElement,
+  LineElement,
   Title,
   Tooltip,
   Legend,
@@ -21,7 +22,8 @@ import {
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  BarElement,
+  PointElement,
+  LineElement,
   Title,
   Tooltip,
   Legend
@@ -53,6 +55,7 @@ function Statistique() {
   const [idProduit, setIdProduit] = useState(0);
   const [annees, setAnnees] = useState([currentYear]);
   const [annee, setAnnee] = useState(currentYear);
+  const [totalVentes, setTotalVentes] = useState(0);
 
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
@@ -103,8 +106,13 @@ function Statistique() {
             {
               label: "Total des ventes",
               data: orderedStats.map((s) => s.totalVentes),
-              backgroundColor: "#007bff",
-              barThickness: 60,
+              borderColor: "#007bff",
+              backgroundColor: "rgba(0, 123, 255, 0.2)",
+              fill: true,
+              tension: 0.3,
+              pointBackgroundColor: "#007bff",
+              pointBorderColor: "#007bff",
+              pointRadius: 5,
             },
           ],
         });
@@ -112,6 +120,7 @@ function Statistique() {
         setProduits(response.data.data[1]);
         setStat(orderedStats);
         setAnnees(response.data.data[2]);
+        setTotalVentes(response.data.data[3]);
 
         console.log("data 0 : ", response.data.data[0]);
         // console.log("data 1 : ", response.data.data[1]);
@@ -152,8 +161,6 @@ function Statistique() {
         ticks: {
           color: labelColor,
         },
-        barPercentage: 0.5, // Ajuste cette valeur pour rendre les barres plus minces
-        categoryPercentage: 0.5, // Ajuste cette valeur pour rendre les barres plus minces
       },
       y: {
         min: 0,
@@ -165,7 +172,6 @@ function Statistique() {
           color: borderColor,
           drawBorder: false,
           borderColor: borderColor,
-          // drawOnChartArea: false,
         },
       },
     },
@@ -208,11 +214,28 @@ function Statistique() {
       <div className="mt-5 mb-5">
         <Navbar />
         <div
-          className="container"
-          style={{ marginLeft: "340px", maxWidth: "1500px" }}
+          style={{ marginLeft: "350px" }}
         >
           <div className="row mb-4 min-vh-100">
-            <div className="row">
+            <div className="col-12 text-center mt-5">
+              <div
+                className="col-3 badge bg-success d-flex flex-column justify-content-center align-items-center"
+                style={{
+                  height: "100px",
+                  fontSize: "1.5rem",
+                  borderRadius: "10px",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                  padding: "10px",
+                }}
+              >
+                <p className="mb-0" style={{ fontWeight: "bold" }}>
+                  Total des ventes
+                </p>
+                <p className="mb-0 mt-3">{totalVentes.toLocaleString("fr-FR")} Ar</p>
+              </div>
+            </div>
+
+            <div className="row mt-5">
               <div className="col-12">
                 <div
                   className="card"
@@ -268,14 +291,14 @@ function Statistique() {
                         right: "0",
                         padding: "10px",
                         fontWeight: "bold",
-                        fontSize: "30px"
+                        fontSize: "30px",
                       }}
                     >
                       {annee || currentYear}
                     </div>
 
                     {chartData ? (
-                      <Bar data={chartData} options={options} />
+                      <Line data={chartData} options={options} />
                     ) : (
                       <Loading />
                     )}
@@ -305,9 +328,11 @@ function Statistique() {
                           <thead>
                             <tr>
                               <th scope="col">Produit</th>
-                              <th scope="col">Unité</th>
+
+                              {idProduit != 0 && <th scope="col">Unité</th>}
+
                               <th scope="col">Total Vendus</th>
-                              <th scope="col">Total Ventes</th>
+                              <th scope="col">Total Ventes (Ar)</th>
                               <th scope="col">Mois</th>
                               <th scope="col">Année</th>
                             </tr>
@@ -316,7 +341,9 @@ function Statistique() {
                             {stat.map((st, index) => (
                               <tr key={`${st.idProduit}-${index}`}>
                                 <td>{st.nomProduit}</td>
-                                <td>{st.nomUnite}</td>
+
+                                {idProduit != 0 && <td>{st.nomUnite}</td>}
+
                                 <td>
                                   {st.totalVendus.toLocaleString("fr-FR")}
                                 </td>

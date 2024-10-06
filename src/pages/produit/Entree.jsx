@@ -104,7 +104,7 @@ function Entree() {
       setNewEntree({ ...newEntree, [name]: value });
     }
   };
-  
+
   if (!produits) {
     return <Loading />
   }
@@ -116,7 +116,7 @@ function Entree() {
       </div>
       <div className="mt-5 mb-5">
         <Navbar />
-        <div className="mt-5" style={{ marginLeft: "400px", maxWidth: "1500px" }} >
+        <div className="mt-5" style={{ marginLeft: "350px" }} >
           <div className="min-vh-100">
             <div className="container-fluid">
               <div className="w-70 mt-5 p-5" style={{ border: "2px solid #ccc", borderRadius: "10px", boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", }} >

@@ -20,7 +20,7 @@ const DetailProduit = () => {
   const { id } = useParams();
   const [produits, setProduits] = useState();
   const [stock, setStock] = useState(0);
-  const[produitPhotos, setProduitPhotos] = useState([]);
+  const [produitPhotos, setProduitPhotos] = useState([]);
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
 
@@ -29,7 +29,7 @@ const DetailProduit = () => {
       navigate("/login");
       return;
     }
-  
+
     const fetchProduct = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/produit/get/${id}`, {
@@ -46,11 +46,11 @@ const DetailProduit = () => {
       }
       console.log(produitPhotos);
     };
-  
+
     fetchProduct();
   }, [id, navigate, token]);
 
-  
+
   if (!produits && !stock) {
     return <Loading />
   }
@@ -59,7 +59,7 @@ const DetailProduit = () => {
     <div>
       <div className="main-content d-flex flex-column min-vh-100 mt-5">
         <div className="mb-5">
-            <Header />
+          <Header />
         </div>
         <div className="page-content mt-5">
           <div className="container">
@@ -130,7 +130,7 @@ const DetailProduit = () => {
                             Prix :
                           </p>
                           <h5 className="mb-0">
-                          {produits.prix.toLocaleString('fr-FR')} Ar
+                            {produits.prix.toLocaleString('fr-FR')} Ar
                           </h5>
                         </div>
                       </div>
@@ -149,7 +149,7 @@ const DetailProduit = () => {
                             Unite :
                           </p>
                           <h5 className="mb-0">
-                          {produits.unite.nom}
+                            {produits.unite.nom}
                           </h5>
                         </div>
                       </div>
@@ -168,7 +168,7 @@ const DetailProduit = () => {
                             Stock :
                           </p>
                           <h5 className="mb-0">
-                          {stock.toLocaleString('fr-FR')}
+                            {stock.toLocaleString('fr-FR')}
                           </h5>
                         </div>
                       </div>
@@ -187,7 +187,7 @@ const DetailProduit = () => {
                             Catégorie :
                           </p>
                           <h5 className="mb-0">
-                          {produits.categorie.nom}
+                            {produits.categorie.nom}
                           </h5>
                         </div>
                       </div>
@@ -222,7 +222,7 @@ const DetailProduit = () => {
       </div>
       <Footer />
     </div>
-    
+
   );
 };
 

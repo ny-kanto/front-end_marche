@@ -1,5 +1,6 @@
 .thumbSwiper img {
-  height: 100px; /* Taille des miniatures */
+  height: 100px;
+  /* Taille des miniatures */
   object-fit: cover;
   border-radius: 10px;
 }
@@ -29,6 +30,7 @@
     transform: scale(0.5);
     opacity: 0;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;

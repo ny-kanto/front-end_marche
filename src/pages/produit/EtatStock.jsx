@@ -42,7 +42,7 @@ function EtatStock() {
         console.log("response", response.data.data[0]);
 
         setTotalPages(response.data.data[1]);
-        
+
         setNoPage(response.data.data[2]);
       } catch (error) {
         if (error.response && error.response.status === 403) {
@@ -59,44 +59,44 @@ function EtatStock() {
   }, [navigate, token]);
 
   // PAGINATION
-const handlePagination = async (pageNumber) => {
-  try {
-    const token = sessionStorage.getItem("token");
-    const params = new URLSearchParams({
-      noPage: pageNumber
-    });
+  const handlePagination = async (pageNumber) => {
+    try {
+      const token = sessionStorage.getItem("token");
+      const params = new URLSearchParams({
+        noPage: pageNumber
+      });
 
-    const response = await axios.get(`http://localhost:8080/stock/etat?${params.toString()}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+      const response = await axios.get(`http://localhost:8080/stock/etat?${params.toString()}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
 
-    const rawStock = response.data.data[0];
-    const transformedStock = rawStock.map(stockEtat => ({
-      idProduit: stockEtat.idProduit,
-      nomProduit: stockEtat.nomProduit,
-      nomUnite: stockEtat.nomUnite,
-      sommeEntree: stockEtat.sommeEntree,
-      sommeSortie: stockEtat.sommeSortie,
-      reste: stockEtat.reste
-    }));
-    setStock(transformedStock);
+      const rawStock = response.data.data[0];
+      const transformedStock = rawStock.map(stockEtat => ({
+        idProduit: stockEtat.idProduit,
+        nomProduit: stockEtat.nomProduit,
+        nomUnite: stockEtat.nomUnite,
+        sommeEntree: stockEtat.sommeEntree,
+        sommeSortie: stockEtat.sommeSortie,
+        reste: stockEtat.reste
+      }));
+      setStock(transformedStock);
 
-    setTotalPages(response.data.data[1]);
-    setNoPage(pageNumber);
+      setTotalPages(response.data.data[1]);
+      setNoPage(pageNumber);
 
-    console.log("total page " + totalPages);
+      console.log("total page " + totalPages);
 
-    console.log(response.data.data[0])
-  } catch (error) {
-    console.error('Erreur lors de la récupération des données:', error);
+      console.log(response.data.data[0])
+    } catch (error) {
+      console.error('Erreur lors de la récupération des données:', error);
+    }
+  };
+
+  if (!stock) {
+    return <Loading />
   }
-};
-
-if (!stock) {
-  return <Loading />
-}
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -107,7 +107,7 @@ if (!stock) {
         <Navbar />
         <div
           className="mt-5"
-          style={{ marginLeft: "340px", maxWidth: "1500px" }}
+          style={{ marginLeft: "350px" }}
         >
           <div className="min-vh-100">
             <div className="container-fluid">
@@ -157,13 +157,13 @@ if (!stock) {
                           </table>
                         </div>
                         <div className='d-flex justify-content-end mt-3'>
-                        <Pagination 
-                        noPage={noPage} 
-                        totalPages={totalPages}
-                        baseUrl="http://localhost:8080/stock/etat"
-                        onPageChange={handlePagination}
-                      />
-                      </div>
+                          <Pagination
+                            noPage={noPage}
+                            totalPages={totalPages}
+                            baseUrl="http://localhost:8080/stock/etat"
+                            onPageChange={handlePagination}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>

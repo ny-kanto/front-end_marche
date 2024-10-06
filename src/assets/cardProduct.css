@@ -36,7 +36,8 @@
   margin-left: 15px;
 }
 
-.currency-unit, .unit-label {
+.currency-unit,
+.unit-label {
   position: absolute;
   font-size: 0.8em;
 }

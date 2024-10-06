@@ -40,7 +40,9 @@ function LoginForm() {
         if (response.data.role === "USER_ACHETEUR") {
           navigate("/product-user/list");
         } else if (response.data.role === "USER_VENDEUR") {
-          navigate("/dashboard");
+          navigate("/dashboard-product");
+        } else if (response.data.role === "ADMIN") {
+          navigate("/admin-dashboard");
         }
       })
       .catch((error) => {

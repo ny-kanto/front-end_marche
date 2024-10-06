@@ -69,10 +69,10 @@ function HeaderUser(refresh) {
   return (
     <Navbar bg="success" expand="lg" variant="dark" fixed="top" className="py-2">
       <div className="container-fluid">
-        
+
         {/* Logo */}
         <Navbar.Brand href="/front-end_marche/product-user/list">
-          <img 
+          <img
             src={Logo}
             alt="Logo"
             // width="50"
@@ -85,10 +85,10 @@ function HeaderUser(refresh) {
           <Button variant="warning" size="sm" type="submit">
             <i className="bi bi-search"></i>
           </Button>
-          <Form.Control 
-            type="search" 
-            placeholder="Rechercher des produits" 
-            className="w-50 mx-3" 
+          <Form.Control
+            type="search"
+            placeholder="Rechercher des produits"
+            className="w-50 mx-3"
             size="sm"
           />
         </Form>
@@ -107,7 +107,7 @@ function HeaderUser(refresh) {
           {/* User Profile */}
           <Dropdown align="end" className="mx-2">
             <Dropdown.Toggle as={Nav.Link} className="text-white d-flex align-items-center">
-            <i className="bi bi-person fs-3"></i>
+              <i className="bi bi-person fs-3"></i>
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.ItemText>

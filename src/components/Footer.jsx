@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function Footer() {
   return (
-    <footer className="bg-success text-white text-center p-3 mt-auto w-100" style={{bottom: 0, left: 0 , right: 0}}>
+    <footer className="bg-success text-white text-center p-3 mt-auto w-100" style={{ bottom: 0, left: 0, right: 0 }}>
       <div className="container">
         <p className="mb-0">
           &copy; 2024 Mon Application. Tous droits réservés.

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";  // Import useLocation
+import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "remixicon/fonts/remixicon.css";
 import "../assets/navbar.css";
@@ -20,20 +20,19 @@ function Navbar() {
         <ul className="navbar-nav">
           <li className="nav-item mb-2">
             <a
-              href="/front-end_marche/dashboard"
-              className={`nav-link d-flex align-items-center ${
-                location.pathname === "/dashboard" ? "text-warning" : ""
-              }`}
+              href="/front-end_marche/dashboard-product"
+              className={`nav-link d-flex align-items-center ${location.pathname === "/dashboard-product" ? "text-warning" : ""
+                      }`}
+              role="button"
             >
-              <i className="ri-dashboard-line me-3"></i> Dashboards
+              <i className="ri-dashboard-line me-3"></i> Statistique
             </a>
           </li>
           <li className="nav-item mb-2">
             <a
               href="#"
-              className={`nav-link d-flex align-items-center ${
-                location.pathname === "/apps" ? "active" : ""
-              }`}
+              className={`nav-link d-flex align-items-center ${location.pathname === "/apps" ? "active" : ""
+                }`}
             >
               <i className="ri-apps-2-line me-3"></i> Apps
             </a>
@@ -41,9 +40,8 @@ function Navbar() {
           <li className="nav-item mb-2">
             <a
               href="#"
-              className={`nav-link d-flex align-items-center ${
-                location.pathname === "/layouts" ? "active" : ""
-              }`}
+              className={`nav-link d-flex align-items-center ${location.pathname === "/layouts" ? "active" : ""
+                }`}
             >
               <i className="ri-layout-grid-line me-3"></i> Layouts
               <span className="badge bg-danger ms-2">Hot</span>
@@ -58,11 +56,10 @@ function Navbar() {
           <li className="nav-item mb-2">
             <a
               href="/front-end_marche/product/list"
-              className={`nav-link d-flex align-items-center ${
-                location.pathname === "/product/list"
+              className={`nav-link d-flex align-items-center ${location.pathname === "/product/list"
                   ? "text-warning"
                   : ""
-              }`}
+                }`}
             >
               <i className="ri-pages-line me-3"></i> Produits
             </a>
@@ -76,9 +73,8 @@ function Navbar() {
             >
               <i className="ri-file-list-3-line me-3"></i> Stock
               <i
-                className={`ri-arrow-${
-                  isStockOpen ? "up" : "down"
-                }-s-line ms-auto`}
+                className={`ri-arrow-${isStockOpen ? "up" : "down"
+                  }-s-line ms-auto`}
               ></i>
             </a>
 
@@ -90,11 +86,10 @@ function Navbar() {
                 <li className="nav-item mb-2">
                   <a
                     href="/front-end_marche/product-stock/entree"
-                    className={`nav-link ${
-                      location.pathname === "/product-stock/entree"
+                    className={`nav-link ${location.pathname === "/product-stock/entree"
                         ? "text-warning"
                         : ""
-                    }`}
+                      }`}
                   >
                     - Entrée
                   </a>
@@ -102,11 +97,10 @@ function Navbar() {
                 <li className="nav-item mb-2">
                   <a
                     href="/front-end_marche/product-stock/etat"
-                    className={`nav-link ${
-                      location.pathname === "/product-stock/etat"
+                    className={`nav-link ${location.pathname === "/product-stock/etat"
                         ? "text-warning"
                         : ""
-                    }`}
+                      }`}
                   >
                     - Etat de stock
                   </a>
@@ -117,9 +111,8 @@ function Navbar() {
           <li className="nav-item mb-2">
             <a
               href="#"
-              className={`nav-link d-flex align-items-center ${
-                location.pathname === "/landing" ? "active" : ""
-              }`}
+              className={`nav-link d-flex align-items-center ${location.pathname === "/landing" ? "active" : ""
+                }`}
             >
               <i className="ri-global-line me-3"></i> Landing
             </a>
@@ -133,9 +126,8 @@ function Navbar() {
           <li className="nav-item mb-2">
             <a
               href="#"
-              className={`nav-link d-flex align-items-center ${
-                location.pathname === "/base-ui" ? "active" : ""
-              }`}
+              className={`nav-link d-flex align-items-center ${location.pathname === "/base-ui" ? "active" : ""
+                }`}
             >
               <i className="ri-shape-line me-3"></i> Base UI
             </a>
@@ -143,9 +135,8 @@ function Navbar() {
           <li className="nav-item mb-2">
             <a
               href="#"
-              className={`nav-link d-flex align-items-center ${
-                location.pathname === "/advance-ui" ? "active" : ""
-              }`}
+              className={`nav-link d-flex align-items-center ${location.pathname === "/advance-ui" ? "active" : ""
+                }`}
             >
               <i className="ri-stack-line me-3"></i> Advance UI
             </a>
@@ -153,9 +144,8 @@ function Navbar() {
           <li className="nav-item mb-2">
             <a
               href="#"
-              className={`nav-link d-flex align-items-center ${
-                location.pathname === "/widgets" ? "active" : ""
-              }`}
+              className={`nav-link d-flex align-items-center ${location.pathname === "/widgets" ? "active" : ""
+                }`}
             >
               <i className="ri-pantone-line me-3"></i> Widgets
             </a>

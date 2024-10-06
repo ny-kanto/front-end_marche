@@ -2,9 +2,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import Loading from './Loading';
+import { useNavigate } from 'react-router-dom';
 
 const Order = ({ orders, totalGlobal, onQuantityChange, onRemoveProduct, error }) => {
-    
+    const navigate = useNavigate();
+
     if (!orders) {
         return <Loading />
     }
@@ -42,29 +44,29 @@ const Order = ({ orders, totalGlobal, onQuantityChange, onRemoveProduct, error }
                     <div className="col-2 text-center">{order.prix_produit.toLocaleString('fr-FR')}</div>
                     <div className="col-1 text-center">
                         <div className="d-flex justify-content-center align-items-center">
-                        <button
-                            className="btn btn-sm btn-outline-secondary"
-                            onClick={() => onQuantityChange(order.id_produit, order.quantite - 1)}
-                            disabled={order.quantite <= 1}
-                        >
-                            <FontAwesomeIcon icon={faMinus} />
-                        </button>
-                        <span className="mx-2">{order.quantite}</span>
-                        <button
-                            className="btn btn-sm btn-outline-secondary"
-                            onClick={() => onQuantityChange(order.id_produit, order.quantite + 1)}
-                        >
-                            <FontAwesomeIcon icon={faPlus} />
-                        </button>
+                            <button
+                                className="btn btn-sm btn-outline-secondary"
+                                onClick={() => onQuantityChange(order.id_produit, order.quantite - 1)}
+                                disabled={order.quantite <= 1}
+                            >
+                                <FontAwesomeIcon icon={faMinus} />
+                            </button>
+                            <span className="mx-2">{order.quantite}</span>
+                            <button
+                                className="btn btn-sm btn-outline-secondary"
+                                onClick={() => onQuantityChange(order.id_produit, order.quantite + 1)}
+                            >
+                                <FontAwesomeIcon icon={faPlus} />
+                            </button>
                         </div>
                     </div>
-                    <div className="col-1 text-center">{(order.prix_produit * order.quantite).toLocaleString('fr-FR')}</div>
+                    <div className="col-1 text-center">{order.total.toLocaleString('fr-FR')}</div>
                     <div className='ms-5 w-auto d-flex justify-content-end' style={{ marginBottom: "75px" }}>
                         <button
-                        className="btn btn-sm btn-outline-danger"
-                        onClick={() => onRemoveProduct(order.id_produit)}
+                            className="btn btn-sm btn-outline-danger"
+                            onClick={() => onRemoveProduct(order.id_produit)}
                         >
-                        <FontAwesomeIcon icon={faTimes} />
+                            <FontAwesomeIcon icon={faTimes} />
                         </button>
                     </div>
                 </div>
@@ -72,33 +74,39 @@ const Order = ({ orders, totalGlobal, onQuantityChange, onRemoveProduct, error }
 
             <div className="row justify-content-end pt-4 mt-4">
                 <div className="col-4">
-                    {/* <p className="d-flex justify-content-between">
-                        <span>Sub Total :</span>
-                        <span>{orders[0].produit.prix.toLocaleString('fr-FR')} Ar</span>
-                    </p>
-                    <p className="d-flex justify-content-between">
-                        <span>Discount (VELZON15) :</span>
-                        <span className="text-danger">-{orders[0].produit.prix.toLocaleString('fr-FR')} Ar</span>
-                    </p>
-                    <p className="d-flex justify-content-between">
-                        <span>Shipping Charge :</span>
-                        <span>{orders[0].produit.prix.toLocaleString('fr-FR')} Ar</span>
-                    </p>
-                    <p className="d-flex justify-content-between">
-                        <span>Estimated Tax :</span>
-                        <span>{orders[0].produit.prix.toLocaleString('fr-FR')} Ar</span>
-                    </p> */}
                     <hr />
                     <p className="d-flex justify-content-between">
                         <strong>Total (Ar) :</strong>
-                        <strong>{totalGlobal}</strong>
+
+                        {error && (
+                            <div className="alert alert-danger mt-3" role="alert">
+                                {error}
+                            </div>
+                        )}
+
+                        {totalGlobal ? (
+                            <strong>{totalGlobal.toLocaleString('fr-FR')}</strong>
+                        ) : (
+                            <strong>{totalGlobal}</strong>
+                        )}
                     </p>
                 </div>
             </div>
 
-            <div className="row justify-content-end mt-4">
-                <div className="col-4 text-end">
-                    <button className="btn btn-success">Accéder au paiement</button>
+            <div className="row mt-4">
+                <div className="d-flex justify-content-between">
+                    <div className="col-4 text-end">
+                        <button
+                            type="button"
+                            className="btn btn-info bg-gradient text-white"
+                            onClick={() => navigate("/product-user/list")}
+                        >
+                            Retour
+                        </button>
+                    </div>
+                    <div className="col-4 text-end">
+                        <a href='https://buy.stripe.com/test_5kAaFM8CO4ye1dC5kk' className='btn btn-success' style={{ textDecoration: "none", color: "white" }}>Accéder au paiement</a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -34,7 +34,7 @@ function ListProduit() {
   const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
 
-  
+
   useEffect(() => {
     console.log("token front : ", token);
     console.log("email front : ", sessionStorage.getItem("email"));
@@ -79,7 +79,7 @@ function ListProduit() {
           nom_region: produit.region.nom
         }));
         setProduits(transformedProduits);
-  
+
         setTotalPages(response.data.data[1]);
         setCategories(response.data.data[2].map(categorie => ({
           id: categorie.id,
@@ -112,10 +112,10 @@ function ListProduit() {
         }
       }
     };
-  
+
     fetchProduits();
   }, [navigate, token, refresh, formData, noPage, sort, column]);
-  
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -125,19 +125,19 @@ function ListProduit() {
 
       setFormData({ ...formData, [name]: updatednom });
     }
-    
+
     if (name === "filtre_prix_min") {
       const updatedprix_min = name === "filtre_prix_min" ? value : formData.filtre_prix_min;
 
       setFormData({ ...formData, [name]: updatedprix_min });
     }
-    
+
     if (name === "filtre_prix_max") {
       const updatedprix_max = name === "filtre_prix_max" ? value : formData.filtre_prix_max;
 
       setFormData({ ...formData, [name]: updatedprix_max });
     }
-    
+
     if (name === "filtre_unite") {
       const updatedUnite = name === "filtre_unite" ? value : formData.filtre_unite;
 
@@ -156,7 +156,7 @@ function ListProduit() {
       setFormData({ ...formData, [name]: updatedtype_produit });
     }
   };
-  
+
   // SUPPRESSION
   const handleDelete = (deletedId) => {
     setProduits(produits.filter(produit => produit.id !== deletedId));
@@ -233,7 +233,7 @@ function ListProduit() {
         for (let i = 0; i < newProductData.files.length; i++) {
           formData.append('photo', newProductData.files[i]);
         }
-      }      
+      }
 
       const response = await axios.post('http://localhost:8080/produit/save', formData, {
         headers: {
@@ -243,7 +243,7 @@ function ListProduit() {
       });
 
       console.log("Réponse ", response.data);
-      
+
       if (response.status === 200) {
         onAddProduct(response.data);
         setShowModalAdd(false);
@@ -255,11 +255,11 @@ function ListProduit() {
     }
   };
 
-// TRIAGE
-const handleSort = async (sortOrder, columnName) => {
-  try {
-    const token = sessionStorage.getItem("token");
-    const params = new URLSearchParams({
+  // TRIAGE
+  const handleSort = async (sortOrder, columnName) => {
+    try {
+      const token = sessionStorage.getItem("token");
+      const params = new URLSearchParams({
         column: columnName,
         sort: sortOrder,
         filtre_nom: formData.filtre_nom,
@@ -268,18 +268,18 @@ const handleSort = async (sortOrder, columnName) => {
         filtre_unite: formData.filtre_unite,
         filtre_categorie: formData.filtre_categorie,
         filtre_type_produit: formData.filtre_type_produit
-    });
+      });
 
-    const response = await axios.get(`http://localhost:8080/produit/all?${params.toString()}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+      const response = await axios.get(`http://localhost:8080/produit/all?${params.toString()}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
 
-    // Transforme les données reçues
-    const rawProduits = response.data.data[0];
-    const transformedProduits = rawProduits.map(produit => ({
-      id: produit.id,
+      // Transforme les données reçues
+      const rawProduits = response.data.data[0];
+      const transformedProduits = rawProduits.map(produit => ({
+        id: produit.id,
         nom: produit.nom,
         prix: produit.prix,
         description: produit.description,
@@ -292,76 +292,76 @@ const handleSort = async (sortOrder, columnName) => {
         localisation: produit.localisation,
         id_region: produit.region.id,
         nom_region: produit.region.nom
-    }));
-    setProduits(transformedProduits);
+      }));
+      setProduits(transformedProduits);
 
-    setTotalPages(response.data.data[1]);
+      setTotalPages(response.data.data[1]);
 
-    console.log("triage ", transformedProduits);
+      console.log("triage ", transformedProduits);
 
-    const rawCategorie = response.data.data[2];
-    const transformedCategorie = rawCategorie.map(categorie => ({
-      id: categorie.id,
-      nom: categorie.nom,
-    }));
-    setCategories(transformedCategorie);
+      const rawCategorie = response.data.data[2];
+      const transformedCategorie = rawCategorie.map(categorie => ({
+        id: categorie.id,
+        nom: categorie.nom,
+      }));
+      setCategories(transformedCategorie);
 
-    const rawUnite = response.data.data[3];
-    const transformedUnite = rawUnite.map(unite => ({
-      id: unite.id,
-      nom: unite.nom,
-    }));
-    setUnites(transformedUnite);
+      const rawUnite = response.data.data[3];
+      const transformedUnite = rawUnite.map(unite => ({
+        id: unite.id,
+        nom: unite.nom,
+      }));
+      setUnites(transformedUnite);
 
-    const rawTypeProduit = response.data.data[4];
-    const transformedTypeProduit = rawTypeProduit.map(typeProduit => ({
-      id: typeProduit.id,
-      nom: typeProduit.nom,
-    }));
-    setTypeProduits(transformedTypeProduit);
+      const rawTypeProduit = response.data.data[4];
+      const transformedTypeProduit = rawTypeProduit.map(typeProduit => ({
+        id: typeProduit.id,
+        nom: typeProduit.nom,
+      }));
+      setTypeProduits(transformedTypeProduit);
 
-    const rawRegion = response.data.data[4];
-    const transformedRegion = rawRegion.map(region => ({
-      id: region.id,
-      nom: region.nom,
-    }));
-    setRegions(transformedRegion);
+      const rawRegion = response.data.data[4];
+      const transformedRegion = rawRegion.map(region => ({
+        id: region.id,
+        nom: region.nom,
+      }));
+      setRegions(transformedRegion);
 
-    setNoPage(response.data.data[5]);
+      setNoPage(response.data.data[5]);
 
-    setSort(response.data.data[6]);
+      setSort(response.data.data[6]);
 
-    setColumn(response.data.data[7]);
-  } catch (error) {
-    console.error('Erreur lors de la récupération des données:', error);
-  }
-};
+      setColumn(response.data.data[7]);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des données:', error);
+    }
+  };
 
-// PAGINATION
-const handlePagination = async (pageNumber) => {
-  try {
-    const token = sessionStorage.getItem("token");
-    const params = new URLSearchParams({
-      noPage: pageNumber,
-      sort: sort,
-      column: column,
-      filtre_nom: formData.filtre_nom,
-      filtre_prix_min: formData.filtre_prix_min,
-      filtre_prix_max: formData.filtre_prix_max,
-      filtre_unite: formData.filtre_unite,
-      filtre_categorie: formData.filtre_categorie,
-      filtre_type_produit: formData.filtre_type_produit
-    });
+  // PAGINATION
+  const handlePagination = async (pageNumber) => {
+    try {
+      const token = sessionStorage.getItem("token");
+      const params = new URLSearchParams({
+        noPage: pageNumber,
+        sort: sort,
+        column: column,
+        filtre_nom: formData.filtre_nom,
+        filtre_prix_min: formData.filtre_prix_min,
+        filtre_prix_max: formData.filtre_prix_max,
+        filtre_unite: formData.filtre_unite,
+        filtre_categorie: formData.filtre_categorie,
+        filtre_type_produit: formData.filtre_type_produit
+      });
 
-    const response = await axios.get(`http://localhost:8080/produit/all?${params.toString()}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+      const response = await axios.get(`http://localhost:8080/produit/all?${params.toString()}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
 
-    const rawProduits = response.data.data[0];
-    const transformedProduits = rawProduits.map(produit => ({
-      id: produit.id,
+      const rawProduits = response.data.data[0];
+      const transformedProduits = rawProduits.map(produit => ({
+        id: produit.id,
         nom: produit.nom,
         prix: produit.prix,
         description: produit.description,
@@ -374,24 +374,24 @@ const handlePagination = async (pageNumber) => {
         localisation: produit.localisation,
         id_region: produit.region.id,
         nom_region: produit.region.nom
-    }));
-    setProduits(transformedProduits);
+      }));
+      setProduits(transformedProduits);
 
-    setTotalPages(response.data.data[1]);
-    setNoPage(pageNumber);
+      setTotalPages(response.data.data[1]);
+      setNoPage(pageNumber);
 
-    console.log("total page " + totalPages);
+      console.log("total page " + totalPages);
 
-    console.log(response.data.data[0])
-  } catch (error) {
-    console.error('Erreur lors de la récupération des données:', error);
+      console.log(response.data.data[0])
+    } catch (error) {
+      console.error('Erreur lors de la récupération des données:', error);
+    }
+  };
+
+
+  if (!produits) {
+    return <Loading />
   }
-};
-
-
-if (!produits) {
-  return <Loading />
-}
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -400,19 +400,19 @@ if (!produits) {
       </div>
       <div className="mt-5 mb-5">
         <Navbar />
-        <div className="mt-5" style={{ marginLeft: "340px", maxWidth: "1500px" }}>
+        <div className="mt-5" style={{ marginLeft: "350px" }}>
           <div className="min-vh-100">
             <div className="container-fluid">
 
-            <div className="row mt-4">
-              <div className="w-auto">
-                <div className="card">
-                  <div className="card-header align-items-center d-flex">
-                    <h6 className="card-title mb-0 flex-grow-1">Filtre</h6>
-                  </div>
-                  <div className="card-body">
-                    <div className="live-preview">
-                      <div className="row g-4 mb-3">
+              <div className="row mt-4">
+                <div className="w-auto">
+                  <div className="card">
+                    <div className="card-header align-items-center d-flex">
+                      <h6 className="card-title mb-0 flex-grow-1">Filtre</h6>
+                    </div>
+                    <div className="card-body">
+                      <div className="live-preview">
+                        <div className="row g-4 mb-3">
                           <div className="d-flex flex-wrap">
                             <div className="me-1 mt-2">
                               <input type="text" name="filtre_nom" className="form-control w-auto" placeholder="Entrez le nom" value={formData.filtre_nom} onChange={handleInputChange} />
@@ -448,226 +448,226 @@ if (!produits) {
                               </select>
                             </div>
                           </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row mt-4">
-              <div className="col-lg-12">
-                <div className="card">
-                  <div className="card-header align-items-center d-flex">
-                    <h4 className="card-title mb-0 flex-grow-1">Produit</h4>
-                  </div>
-                  <div className="card-body">
-                    <div className="live-preview">
-                      <div className="row g-4 mb-3">
-                        <div className="col-sm-auto">
-                            <div>
-                                <button type="button" onClick={handleShowAdd} className="btn btn-success add-btn"><i
-                                        className="fas fa-plus"></i> Ajouter un produit</button>
-                            </div>
                         </div>
                       </div>
-                      <div className="table-responsive modal-body-pdf">
-                        <table
-                          className="table align-middle table-nowrap mb-0"
-                          id="myTable">
-                          <thead>
-                            <tr>
-                              <th scope="col">
-                                #
-                                <a href="#" onClick={() => handleSort(sort + 1, "p.id")}>
-                                <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
-                                </a>
-                              </th>
-                              <th scope="col">
-                                Nom
-                                <a href="#" onClick={() => handleSort(sort + 1, "nom")}>
-                                <i className="fas fa-sort" style={{ float: "right", color: "grey"}}></i>
-                                </a>
-                              </th>
-                              <th scope="col">
-                                Prix (Ar)
-                                <a href="#" onClick={() => handleSort(sort + 1, "prix")}>
-                                <i className="fas fa-sort" style={{ float: "right", color: "grey"}}></i>
-                                </a>
-                              </th>
-                              <th scope="col">
-                                Unité
-                                <a href="#" onClick={() => handleSort(sort + 1, "id_unite")}>
-                                <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
-                                </a>
-                              </th>
-                              <th scope="col">
-                                Catégorie
-                                <a href="#" onClick={() => handleSort(sort + 1, "id_categorie")}>
-                                <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
-                                </a>
-                              </th>
-                              <th scope="col">Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          {produits.map((product) => (
-                            <Produit
-                              produit={product}
-                              categories={categories}
-                              unites={unites}
-                              key={product.id}
-                              onDelete={handleDelete}
-                              onUpdate={handleUpdate}
-                              regions={regions}
-                            />
-                          ))}
-                          </tbody>
-                        </table>
-                      </div>
-                      <div className='d-flex justify-content-end mt-3'>
-                      <Pagination 
-                        noPage={noPage} 
-                        totalPages={totalPages}
-                        baseUrl="http://localhost:8080/produit/all"
-                        onPageChange={handlePagination}
-                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="row mt-4">
+                <div className="col-lg-12">
+                  <div className="card">
+                    <div className="card-header align-items-center d-flex">
+                      <h4 className="card-title mb-0 flex-grow-1">Produit</h4>
+                    </div>
+                    <div className="card-body">
+                      <div className="live-preview">
+                        <div className="row g-4 mb-3">
+                          <div className="col-sm-auto">
+                            <div>
+                              <button type="button" onClick={handleShowAdd} className="btn btn-success add-btn"><i
+                                className="fas fa-plus"></i> Ajouter un produit</button>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="table-responsive modal-body-pdf">
+                          <table
+                            className="table align-middle table-nowrap mb-0"
+                            id="myTable">
+                            <thead>
+                              <tr>
+                                <th scope="col">
+                                  #
+                                  <a href="#" onClick={() => handleSort(sort + 1, "p.id")}>
+                                    <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
+                                  </a>
+                                </th>
+                                <th scope="col">
+                                  Nom
+                                  <a href="#" onClick={() => handleSort(sort + 1, "nom")}>
+                                    <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
+                                  </a>
+                                </th>
+                                <th scope="col">
+                                  Prix (Ar)
+                                  <a href="#" onClick={() => handleSort(sort + 1, "prix")}>
+                                    <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
+                                  </a>
+                                </th>
+                                <th scope="col">
+                                  Unité
+                                  <a href="#" onClick={() => handleSort(sort + 1, "id_unite")}>
+                                    <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
+                                  </a>
+                                </th>
+                                <th scope="col">
+                                  Catégorie
+                                  <a href="#" onClick={() => handleSort(sort + 1, "id_categorie")}>
+                                    <i className="fas fa-sort" style={{ float: "right", color: "grey" }}></i>
+                                  </a>
+                                </th>
+                                <th scope="col">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {produits.map((product) => (
+                                <Produit
+                                  produit={product}
+                                  categories={categories}
+                                  unites={unites}
+                                  key={product.id}
+                                  onDelete={handleDelete}
+                                  onUpdate={handleUpdate}
+                                  regions={regions}
+                                />
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                        <div className='d-flex justify-content-end mt-3'>
+                          <Pagination
+                            noPage={noPage}
+                            totalPages={totalPages}
+                            baseUrl="http://localhost:8080/produit/all"
+                            onPageChange={handlePagination}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Modal d'ajout de produit */}
-          <Modal show={showModalAdd} onHide={handleCloseAdd} centered size="lg">
-            <Modal.Header closeButton>
-              <Modal.Title>Ajouter un produit</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form>
-                <Form.Group controlId="formNom">
-                  <Form.Label>Nom</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="nom"
-                    value={newProductData.nom}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-                <Form.Group controlId="formDescription">
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    name="description"
-                    value={newProductData.description}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-                <Form.Group controlId="formPrix">
-                  <Form.Label>Prix</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="prix"
-                    value={newProductData.prix}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-                <Form.Group controlId="formMinCommande">
-                  <Form.Label>Quantité Minimum</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="minCommande"
-                    value={newProductData.minCommande}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-                <Form.Group controlId="formDelaisLivraison">
-                  <Form.Label>Délai de Livraison</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="delaisLivraison"
-                    value={newProductData.delaisLivraison}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-                <Form.Group controlId="formUnite">
-                  <Form.Label>Unité</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="id_unite"
-                    value={newProductData.unite.id}
-                    onChange={handleChange}
-                  >
-                    <option value="">Sélectionnez une unité</option>
-                    {unites.map((unite) => (
-                      <option key={unite.id} value={unite.id}>{unite.nom}</option>
-                    ))}
-                  </Form.Control>
-                </Form.Group>
-                <Form.Group controlId="formCategorie">
-                  <Form.Label>Catégorie</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="id_categorie"
-                    value={newProductData.categorie.id}
-                    onChange={handleChange}
-                  >
-                    <option value="">Sélectionnez une catégorie</option>
-                    {categories.map((cat) => (
-                      <option key={cat.id} value={cat.id}>{cat.nom}</option>
-                    ))}
-                  </Form.Control>
-                </Form.Group>
-                <Form.Group controlId="formLocalisation">
-                  <Form.Label>Localisation</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="localisation"
-                    value={newProductData.localisation}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-                <Form.Group controlId="formRegion">
-                  <Form.Label>Région</Form.Label>
-                  <Form.Control
-                    as="select"
-                    name="id_region"
-                    value={newProductData.region.id}
-                    onChange={handleChange}
-                  >
-                    <option value="">Sélectionnez une région</option>
-                    {regions.map((reg) => (
-                      <option key={reg.id} value={reg.id}>{reg.nom}</option>
-                    ))}
-                  </Form.Control>
-                </Form.Group>
-                <Form.Group controlId="formFiles">
-                  <Form.Label>Importer des photos</Form.Label>
-                  <Form.Control
-                    type="file"
-                    multiple
-                    onChange={handleFileChange}
-                    name="photo"
-                  />
-                </Form.Group>
-              </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseAdd}>
-                Annuler
-              </Button>
-              <Button variant="primary" onClick={handleAddProduct}>
-                Ajouter le produit
-              </Button>
-            </Modal.Footer>
-          </Modal>
-          </div>
+              {/* Modal d'ajout de produit */}
+              <Modal show={showModalAdd} onHide={handleCloseAdd} centered size="lg">
+                <Modal.Header closeButton>
+                  <Modal.Title>Ajouter un produit</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form>
+                    <Form.Group controlId="formNom">
+                      <Form.Label>Nom</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="nom"
+                        value={newProductData.nom}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="formDescription">
+                      <Form.Label>Description</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        name="description"
+                        value={newProductData.description}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="formPrix">
+                      <Form.Label>Prix</Form.Label>
+                      <Form.Control
+                        type="number"
+                        name="prix"
+                        value={newProductData.prix}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="formMinCommande">
+                      <Form.Label>Quantité Minimum</Form.Label>
+                      <Form.Control
+                        type="number"
+                        name="minCommande"
+                        value={newProductData.minCommande}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="formDelaisLivraison">
+                      <Form.Label>Délai de Livraison</Form.Label>
+                      <Form.Control
+                        type="number"
+                        name="delaisLivraison"
+                        value={newProductData.delaisLivraison}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="formUnite">
+                      <Form.Label>Unité</Form.Label>
+                      <Form.Control
+                        as="select"
+                        name="id_unite"
+                        value={newProductData.unite.id}
+                        onChange={handleChange}
+                      >
+                        <option value="">Sélectionnez une unité</option>
+                        {unites.map((unite) => (
+                          <option key={unite.id} value={unite.id}>{unite.nom}</option>
+                        ))}
+                      </Form.Control>
+                    </Form.Group>
+                    <Form.Group controlId="formCategorie">
+                      <Form.Label>Catégorie</Form.Label>
+                      <Form.Control
+                        as="select"
+                        name="id_categorie"
+                        value={newProductData.categorie.id}
+                        onChange={handleChange}
+                      >
+                        <option value="">Sélectionnez une catégorie</option>
+                        {categories.map((cat) => (
+                          <option key={cat.id} value={cat.id}>{cat.nom}</option>
+                        ))}
+                      </Form.Control>
+                    </Form.Group>
+                    <Form.Group controlId="formLocalisation">
+                      <Form.Label>Localisation</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="localisation"
+                        value={newProductData.localisation}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                    <Form.Group controlId="formRegion">
+                      <Form.Label>Région</Form.Label>
+                      <Form.Control
+                        as="select"
+                        name="id_region"
+                        value={newProductData.region.id}
+                        onChange={handleChange}
+                      >
+                        <option value="">Sélectionnez une région</option>
+                        {regions.map((reg) => (
+                          <option key={reg.id} value={reg.id}>{reg.nom}</option>
+                        ))}
+                      </Form.Control>
+                    </Form.Group>
+                    <Form.Group controlId="formFiles">
+                      <Form.Label>Importer des photos</Form.Label>
+                      <Form.Control
+                        type="file"
+                        multiple
+                        onChange={handleFileChange}
+                        name="photo"
+                      />
+                    </Form.Group>
+                  </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleCloseAdd}>
+                    Annuler
+                  </Button>
+                  <Button variant="primary" onClick={handleAddProduct}>
+                    Ajouter le produit
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </div>
           </div>
           <Footer />
         </div>
       </div>
-      
+
     </div>
   );
 }

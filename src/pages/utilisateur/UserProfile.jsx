@@ -13,11 +13,11 @@ const UserProfile = () => {
       <div className="container mt-5 mb-5">
         <div className="">
           <div className="card-header d-flex justify-content-between align-items-center bg-light mb-5" style={{
-                        border: "none",
-                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                        padding: "20px 20px 20px 20px",
-                        borderRadius: "10px"
-                    }}>
+            border: "none",
+            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+            padding: "20px 20px 20px 20px",
+            borderRadius: "10px"
+          }}>
             <div>
               <h2 className="mb-0">Ny Kanto RANDRIA</h2>
               <p className="text-muted">Date d&apos;inscription : Janvier 2023</p>
@@ -28,9 +28,9 @@ const UserProfile = () => {
             <div className="row">
               <div className="col-md-4">
                 <div className="card mb-4" style={{
-                        border: "none",
-                        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                    }}>
+                  border: "none",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                }}>
                   <div className="card-body">
                     <div className='mb-4'>
                       <h5 className="text-uppercase" style={{ fontSize: "17px", letterSpacing: "1px", marginBottom: "10px", opacity: "0.6" }}>À propos</h5>
@@ -51,9 +51,9 @@ const UserProfile = () => {
 
                 {/* Produits disponibles */}
                 <div className="card mt-4" style={{
-                    border: "none",
-                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                  }}>
+                  border: "none",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                }}>
                   <div className="card-body">
                     <h5 className="text-uppercase" style={{ fontSize: "17px", letterSpacing: "1px", marginBottom: "10px", opacity: "0.6" }}>Produits Disponibles</h5>
                     <ul className="list-unstyled">
@@ -68,9 +68,9 @@ const UserProfile = () => {
               {/* Activité récente */}
               <div className="col-md-8">
                 <div className="card" style={{
-                    border: "none",
-                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                  }}>
+                  border: "none",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                }}>
                   <div className="card-body">
                     <h5 className="text-uppercase" style={{ fontSize: "17px", letterSpacing: "1px", marginBottom: "10px", opacity: "0.6" }}>Activité Récente</h5>
                     <ul className="timeline list-unstyled">
@@ -96,9 +96,9 @@ const UserProfile = () => {
 
                 {/* Évaluations */}
                 <div className="card mt-4" style={{
-                    border: "none",
-                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                  }}>
+                  border: "none",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                }}>
                   <div className="card-body">
                     <h5 className="text-uppercase" style={{ fontSize: "17px", letterSpacing: "1px", marginBottom: "10px", opacity: "0.6" }}>Évaluations</h5>
                     <p>Moyenne des évaluations : ★★★★☆ (4.5)</p>

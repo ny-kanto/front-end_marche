@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Navbar, Nav, Dropdown, Form, Button } from "react-bootstrap";
+import { Navbar, Nav, Dropdown, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Logo from '/assets/logo.jpeg';
 
 function Header(refresh) {
   const navigate = useNavigate();
-
+  const [commandeCount, setCommandeCount] = useState(0);
   const [personne, setPersonne] = useState({
     id: "",
     nom: "",
@@ -20,10 +20,10 @@ function Header(refresh) {
   });
 
   useEffect(() => {
-    const fetchCartCount = async () => {
+    const fetchCommandeCount = async () => {
       try {
         const token = sessionStorage.getItem("token");
-        const response = await axios.get("http://localhost:8080/user/info", {
+        const response = await axios.get("http://localhost:8080/commande/count", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,13 +32,14 @@ function Header(refresh) {
 
         if (response.status === 200) {
           setPersonne(response.data.data[0]);
+          setCommandeCount(response.data.data[2]);
         }
       } catch (error) {
         console.error("Error fetching cart count:", error);
       }
     };
 
-    fetchCartCount();
+    fetchCommandeCount();
   }, [refresh]);
 
   const handleLogout = async (event) => {
@@ -68,24 +69,6 @@ function Header(refresh) {
   };
 
   return (
-    // <header
-    //   className="bg-dark-subtle text-white p-3 mb-5"
-    //   style={{ position: "fixed", top: 0, right: 0, left: 0, width: "100%", zIndex: "9999" }}
-    // >
-    //   <div className="container d-flex justify-content-between align-items-center">
-    //     <h1 className="h3">LOGO</h1>
-    //     <nav>
-    //       <ul className="nav">
-    //         <li className="nav-item">
-    //           <a className="nav-link text-white" href="#" onClick={handleLogout}>
-    //             <i className="fa fa-sign-out" aria-hidden="true"></i>
-    //           </a>
-    //         </li>
-    //       </ul>
-    //     </nav>
-    //   </div>
-    // </header>
-
     <Navbar
       bg="success"
       expand="lg"
@@ -104,21 +87,18 @@ function Header(refresh) {
           />
         </Navbar.Brand>
 
-        {/* Search Box */}
-        <Form className="d-flex flex-grow-1 mx-3 justify-content-center">
-          <Button variant="warning" size="sm" type="submit">
-            <i className="bi bi-search"></i>
-          </Button>
-          <Form.Control
-            type="search"
-            placeholder="Rechercher des produits"
-            className="w-50 mx-3"
-            size="sm"
-          />
-        </Form>
-
         {/* Right Side Options */}
         <Nav className="d-flex flex-row align-items-center">
+          {/* Cart */}
+          <Nav.Item className="mx-2">
+            <Nav.Link href="/front-end_marche/commande/list" className="text-white d-flex align-items-center">
+              <i className="bi bi-card-checklist fs-5"></i>
+              <Badge bg="warning" text="dark" className="ms-1">{commandeCount}</Badge>
+              <div className="ms-2">Commande</div>
+            </Nav.Link>
+          </Nav.Item>
+
+
           {/* User Profile */}
           <Dropdown align="end" className="mx-2">
             <Dropdown.Toggle

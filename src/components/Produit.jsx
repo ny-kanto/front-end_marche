@@ -16,7 +16,7 @@ function Produit({ produit, categories, unites, regions, onDelete, onUpdate }) {
     delaisLivraison: '',
     categorie: { id: '' },
     localisation: '',
-    region: { id : '' }
+    region: { id: '' }
   });
 
   // Charger les données du produit dans editData lorsque le modal est ouvert
@@ -87,11 +87,11 @@ function Produit({ produit, categories, unites, regions, onDelete, onUpdate }) {
     }
   };
 
-  
+
   if (!produit) {
     return <Loading />
   }
-  
+
   return (
     <>
       <tr>
