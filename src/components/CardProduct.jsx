@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/cardProduct.css";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
@@ -29,7 +30,7 @@ const CardProduct = ({ image, oldPrice, isNew }) => {
           <h5 className="card-title text-center text-black fw-bold text-uppercase">
             {image.nom}
           </h5>
-          <span className='text-primary'>Vendeur : {image.prenom_personne} {image.nom_personne}</span>
+          <a className='text-primary text-decoration-none' href={`/front-end_marche/user/profile-vendeur-acheteur/${image.id_personne}`}>Vendeur : {image.prenom_personne} {image.nom_personne}</a>
           <div className="d-flex align-items-center">
             <div className="star-rating">
               {[...Array(5)].map((star, index) => {

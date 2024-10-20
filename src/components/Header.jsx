@@ -16,7 +16,7 @@ function Header(refresh) {
     codePostal: "",
     role: { id: "", nom: "" },
     utilisateur: { id: "", email: "", password: "", isAdmin: "", pseudo: "" },
-    typeProduction: "",
+    typeProduction: { id: "", nom: "" },
   });
 
   useEffect(() => {
@@ -78,7 +78,7 @@ function Header(refresh) {
     >
       <div className="container-fluid">
         {/* Logo */}
-        <Navbar.Brand href="/front-end_marche/dashboard">
+        <Navbar.Brand href="/front-end_marche/dashboard-product">
           <img
             src={Logo}
             alt="Logo"
@@ -115,7 +115,7 @@ function Header(refresh) {
                 <small className="text-muted">{personne.role.nom}</small>
               </Dropdown.ItemText>
               <Dropdown.Divider />
-              <Dropdown.Item href="/front-end_marche/user/profile">
+              <Dropdown.Item href={`/front-end_marche/user/profile-vendeur/${personne.id}`}>
                 Mon Profil
               </Dropdown.Item>
               <Dropdown.Divider />

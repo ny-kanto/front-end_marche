@@ -1,6 +1,5 @@
 .thumbSwiper img {
   height: 100px;
-  /* Taille des miniatures */
   object-fit: cover;
   border-radius: 10px;
 }

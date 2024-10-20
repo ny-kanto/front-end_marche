@@ -10,11 +10,15 @@ import EtatStock from './pages/produit/EtatStock';
 import ListProduitUser from './pages/produit/ListProduitUser';
 import DetailProduitUser from './pages/produit/DetailProduitUser';
 import OrderList from './pages/produit/OrderList';
-import UserProfile from './pages/utilisateur/UserProfile';
 import Statistique from './pages/dashboard/Statistique';
 import StatistiqueAdmin from './pages/dashboard/StatistiqueAdmin';
+import ListCommandeProduit from './pages/commande/ListCommandeProduit';
 import ListCommande from './pages/commande/ListCommande';
-import Message from './pages/commande/Message';
+import Chat from './pages/utilisateur/Chat';
+import VendeurProfile from './pages/utilisateur/VendeurProfile';
+import VendeurProfileUser from './pages/utilisateur/VendeurProfileUser';
+import AcheteurProfile from './pages/utilisateur/AcheteurProfile';
+import Homepage from './pages/Homepage';
 
 function App() {
 
@@ -23,7 +27,7 @@ function App() {
       <Router basename="/front-end_marche/">
         <Routes>
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/" element={<LoginForm />} />
+          <Route path="/" element={<Homepage />} />
           <Route path="/admin-login" element={<LoginAdminForm />} />
           <Route path="/product-stock/entree" element={<Entree />} />
           <Route path="/product-stock/etat" element={<EtatStock />} />
@@ -35,8 +39,12 @@ function App() {
           <Route path="/product-user/:id" element={<DetailProduitUser />} />
           <Route path="/order/detail" element={<OrderList />} />
           <Route path="/commande/list" element={<ListCommande />} />
+          <Route path="/commande-produit/list/:idCommande" element={<ListCommandeProduit />} />
+          <Route path="/chat" element={<Chat />} />
           <Route path="/product/:id" element={<DetailProduit />} />
-          <Route path="/user/profile" element={<UserProfile />} />
+          <Route path="/user/profile-vendeur/:id" element={<VendeurProfile />} />
+          <Route path="/user/profile-vendeur-acheteur/:id" element={<VendeurProfileUser />} />
+          <Route path="/user/profile-acheteur/:id" element={<AcheteurProfile />} />
           <Route path="/error/403" element={<Error errorCode="403" title="Forbidden" message="Access is denied" redirectLink="/front-end_marche/login" />} />
           {/* <Route path="*" element={<Error errorCode="404" title="Page Not Found" message="We couldn't find the page you are looking for" redirectLink="/login" />} /> */}
         </Routes>

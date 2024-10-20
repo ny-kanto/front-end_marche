@@ -11,6 +11,8 @@ import Loading from "../../components/Loading";
 function OrderList() {
   const [orders, setOrders] = useState([]);
   const [totalGlobal, setTotalGlobal] = useState(0);
+  const [tva, setTva] = useState(0);
+  const [ttc, setTtc] = useState(0);
   const navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
   const [error, setError] = useState("");
@@ -37,6 +39,8 @@ function OrderList() {
         const rawTempOrders = response.data.data[0];
         const produitPhotos = response.data.data[1];
         setTotalGlobal(response.data.data[2]);
+        setTva(response.data.data[3]);
+        setTtc(response.data.data[4]);
 
         const transformedOrders = rawTempOrders.map((order) => {
           const photo = produitPhotos[order.id] || {};
@@ -47,6 +51,7 @@ function OrderList() {
             prix_produit: order.prix,
             quantite: order.quantite,
             total: order.total,
+            id_vendeur: order.id_vendeur,
             nom_vendeur: order.nom_vendeur,
             prenom_vendeur: order.prenom_vendeur,
             pseudo_vendeur: order.pseudo_vendeur,
@@ -144,6 +149,8 @@ function OrderList() {
       if (response.status === 200) {
         handleDelete(productId);
         setTotalGlobal(response.data.total);
+        setTva(response.data.tva);
+        setTtc(response.data.ttc);
       }
     } catch (error) {
       console.error("Error removing product:", error);
@@ -168,6 +175,8 @@ function OrderList() {
             <Order
               orders={orders}
               totalGlobal={totalGlobal}
+              tva={tva}
+              ttc={ttc}
               onQuantityChange={handleQuantityChange}
               onRemoveProduct={handleRemoveProduct}
               error={error}

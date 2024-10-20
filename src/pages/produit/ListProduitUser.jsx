@@ -23,12 +23,14 @@ function ListProduitUser() {
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(0);
   const [filters, setFilters] = useState({
+    nom: "",
     prix_min: 0.0,
     prix_max: 0.0,
     categorie: "",
     localisation: "",
     type_produit: "",
     type_production: "",
+    disponibilite: 0
   });
 
   const [selectedSortOption, setSelectedSortOption] = useState("");
@@ -76,6 +78,7 @@ function ListProduitUser() {
           id_region: produit.region.id,
           nom_region: produit.region.nom,
           localisation: produit.localisation,
+          id_personne: produit.personne.id,
           nom_personne: produit.personne.nom,
           prenom_personne: produit.personne.prenom,
           average_rating: produit.averageRating,
@@ -100,6 +103,7 @@ function ListProduitUser() {
             nom_region: produit.nom_region,
             localisation: produit.localisation,
             average_rating: produit.average_rating,
+            id_personne: produit.id_personne,
             nom_personne: produit.nom_personne,
             prenom_personne: produit.prenom_personne,
             total_count: produit.total_count,
@@ -152,9 +156,6 @@ function ListProduitUser() {
     } else if (value === "meilleures_notes") {
       setColumn("note_produit");
       setSort(2);
-    } else if (value === "meilleures_ventes") {
-      setColumn("");
-      setSort(1);
     } else {
       setColumn("id_produit");
       setSort(1);
@@ -166,7 +167,7 @@ function ListProduitUser() {
   };
 
   const handlePriceChange = (e, newValue) => {
-    const { name, value } = e.target;
+    const { name } = e.target;
 
     let [min, max] = newValue;
 
@@ -185,7 +186,7 @@ function ListProduitUser() {
   };
 
   const handleFilterChange = (e) => {
-    const { name, value } = e.target;
+    const { name, type, checked, value } = e.target;
 
     if (name === "categorie") {
       const updatedcategorie = name === "categorie" ? value : filters.categorie;
@@ -213,7 +214,22 @@ function ListProduitUser() {
 
       setFilters({ ...filters, [name]: updatedtype_production });
     }
+
+    if (name === "disponibilite") {
+      const updateddisponibilite = type === "checkbox" ? (checked ? 1 : 0) : filters.disponibilite;
+      setFilters({ ...filters, [name]: updateddisponibilite });
+    }
   };
+
+  const handleSearchChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "nom") {
+      const updatednom = name === "nom" ? value : filters.nom;
+
+      setFilters({ ...filters, [name]: updatednom });
+    }
+  }
 
   if (!produits) {
     return <Loading />;
@@ -222,7 +238,7 @@ function ListProduitUser() {
   return (
     <div className="d-flex flex-column min-vh-100">
       <div className="mb-5">
-        <HeaderUser />
+        <HeaderUser onHandleSearch={handleSearchChange} />
       </div>
       <div className="row mt-5 mb-5 min-vh-100">
         <div className="col-md-2 mt-5">
@@ -254,7 +270,6 @@ function ListProduitUser() {
                   <option value="prix_de">Prix : décroissant</option>
                   <option value="dernieres_arrivees">Dernières arrivées</option>
                   <option value="meilleures_notes">Meilleures notes</option>
-                  <option value="meilleures_ventes">Meilleures ventes</option>
                 </select>
               </div>
               <div style={{ flexShrink: 0 }}>

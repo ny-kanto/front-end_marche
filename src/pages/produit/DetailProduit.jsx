@@ -210,7 +210,8 @@ const DetailProduit = () => {
                   <button
                     type="button"
                     className="btn btn-info bg-gradient"
-                    onClick={() => navigate("/product/list")}
+                    onClick={() => navigate(-1)}
+                    style={{ color: "white" }}
                   >
                     Retour
                   </button>

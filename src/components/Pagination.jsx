@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Pagination({ noPage, totalPages, onPageChange }) {
@@ -8,7 +9,7 @@ function Pagination({ noPage, totalPages, onPageChange }) {
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
-    const maxPageNumbersToShow = 5; // Nombre de pages maximum à afficher
+    const maxPageNumbersToShow = 5;
     let startPage = Math.max(1, noPage - 2);
     let endPage = Math.min(totalPages, noPage + 2);
 

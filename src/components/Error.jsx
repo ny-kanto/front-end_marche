@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-
+/* eslint-disable react/prop-types */
 const Error = ({ errorCode, title, message, redirectLink }) => {
   return (
     <div className="container-fluid text-center">

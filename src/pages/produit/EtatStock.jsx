@@ -36,6 +36,7 @@ function EtatStock() {
           nomUnite: stockEtat.nomUnite,
           sommeEntree: stockEtat.sommeEntree,
           sommeSortie: stockEtat.sommeSortie,
+          sommeReserve: stockEtat.sommeReserve,
           reste: stockEtat.reste
         }));
         setStock(transformedStock);
@@ -79,6 +80,7 @@ function EtatStock() {
         nomUnite: stockEtat.nomUnite,
         sommeEntree: stockEtat.sommeEntree,
         sommeSortie: stockEtat.sommeSortie,
+        sommeReserve: stockEtat.sommeReserve,
         reste: stockEtat.reste
       }));
       setStock(transformedStock);
@@ -139,6 +141,9 @@ function EtatStock() {
                                   Quantité Sortant
                                 </th>
                                 <th scope="col">
+                                  Quantité Réservé
+                                </th>
+                                <th scope="col">
                                   Reste
                                 </th>
                               </tr>
@@ -150,6 +155,7 @@ function EtatStock() {
                                   <td>{stockItem.nomUnite}</td>
                                   <td>{stockItem.sommeEntree.toLocaleString('fr-FR')}</td>
                                   <td>{stockItem.sommeSortie.toLocaleString('fr-FR')}</td>
+                                  <td>{stockItem.sommeReserve.toLocaleString('fr-FR')}</td>
                                   <td>{stockItem.reste.toLocaleString('fr-FR')}</td>
                                 </tr>
                               ))}

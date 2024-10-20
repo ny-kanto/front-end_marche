@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
 import Slider from "@mui/material/Slider";
@@ -13,7 +14,7 @@ function FilterNavbar({
   typeProduits,
   localisations,
   minPrix,
-  maxPrix,
+  maxPrix
 }) {
   const [priceRange, setPriceRange] = useState([minPrix, maxPrix]);
   const [prix_min, setPrix_min] = useState(minPrix);
@@ -22,6 +23,7 @@ function FilterNavbar({
   const [localisation, setLocalisation] = useState("");
   const [type_produit, setType_produit] = useState("");
   const [type_production, setType_production] = useState("");
+  const [disponibilite, setDisponibilite] = useState(0);
 
   useEffect(() => {
     setPriceRange([minPrix, maxPrix]);
@@ -48,7 +50,7 @@ function FilterNavbar({
   };
 
   const handleFilterChange = (e) => {
-    const { name, value } = e.target;
+    const { name, type, checked, value } = e.target;
 
     onFilterChange(e);
 
@@ -77,6 +79,18 @@ function FilterNavbar({
         name === "type_production" ? value : type_production;
 
       setType_production(updatedtype_production);
+    }
+
+    if (name === "disponibilite") {
+      const updateddisponibilite =
+        name === "disponibilite" ? value : disponibilite;
+
+      setDisponibilite(updateddisponibilite);
+    }
+
+    if (name === "disponibilite") {
+      const updateddisponibilite = type === "checkbox" ? (checked ? 1 : 0) : disponibilite;
+      setDisponibilite(updateddisponibilite);
     }
   };
 
@@ -196,11 +210,22 @@ function FilterNavbar({
               </Box>
               <div className="d-flex justify-content-between mt-2">
                 <span>
-                  Min: {prix_min} Ar {minPrix === prix_min && <FontAwesomeIcon icon={faMinus} />}
+                  {prix_min} {minPrix === prix_min && <FontAwesomeIcon icon={faMinus} />} 
                 </span>
                 <span>
-                  Max: {prix_max} Ar {maxPrix === prix_max && <FontAwesomeIcon icon={faPlus} />}
+                  {prix_max} {maxPrix === prix_max && <FontAwesomeIcon icon={faPlus} />}
                 </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-xs-12 mb-3 d-flex justify-content-between">
+              <label htmlFor="priceRange" className="form-label">
+                Produits disponibles
+              </label>
+              <div>
+                <input type="checkbox" name="disponibilite" checked={disponibilite === 1} onChange={handleFilterChange} />
               </div>
             </div>
           </div>

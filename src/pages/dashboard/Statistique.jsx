@@ -328,10 +328,8 @@ function Statistique() {
                           <thead>
                             <tr>
                               <th scope="col">Produit</th>
-
                               {idProduit != 0 && <th scope="col">Unité</th>}
-
-                              <th scope="col">Total Vendus</th>
+                              {idProduit != 0 && <th scope="col">Total Vendus</th>}
                               <th scope="col">Total Ventes (Ar)</th>
                               <th scope="col">Mois</th>
                               <th scope="col">Année</th>
@@ -341,12 +339,8 @@ function Statistique() {
                             {stat.map((st, index) => (
                               <tr key={`${st.idProduit}-${index}`}>
                                 <td>{st.nomProduit}</td>
-
                                 {idProduit != 0 && <td>{st.nomUnite}</td>}
-
-                                <td>
-                                  {st.totalVendus.toLocaleString("fr-FR")}
-                                </td>
+                                {idProduit != 0 && <td>{st.totalVendus.toLocaleString("fr-FR")}</td>}
                                 <td>
                                   {st.totalVentes.toLocaleString("fr-FR")}
                                 </td>

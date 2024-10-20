@@ -1,15 +1,54 @@
+/* eslint-disable react/prop-types */
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import Loading from './Loading';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { loadStripe } from '@stripe/stripe-js';
 
-const Order = ({ orders, totalGlobal, onQuantityChange, onRemoveProduct, error }) => {
+const stripePromise = loadStripe('pk_test_51PzdXHP9aFNqJB143LDifNXBs64NFDborMhWlid9lXHJADhNbf5cqSPZHriljO01rfY7LckxDq4rsrm8iP9fP6ni00yS7KPeUJ');
+
+const Order = ({ orders, totalGlobal, tva, ttc, onQuantityChange, onRemoveProduct, error }) => {
     const navigate = useNavigate();
 
     if (!orders) {
         return <Loading />
     }
+
+    const handlePaiement = async (e) => {
+        e.preventDefault();
+        const stripe = await stripePromise; // Charge Stripe
+        try {
+            const token = sessionStorage.getItem("token");
+
+            const response = await axios.post("http://localhost:8080/panier/save-commande",
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    withCredentials: true,
+                });
+
+            console.log("response paiement : " + response.data.data);
+
+            // Redirection vers Stripe Checkout
+            const { error } = await stripe.redirectToCheckout({
+                sessionId: response.data.data,
+            });
+
+            if (error) {
+                console.error('Error during Stripe Checkout:', error);
+            }
+            if (response.status === 200) {
+                // alert("votre commande a bien été envoyé");
+                navigate("/product-user/list");
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'envoi des données :", error);
+        }
+    };
 
     return (
         <div className="container">
@@ -38,7 +77,7 @@ const Order = ({ orders, totalGlobal, onQuantityChange, onRemoveProduct, error }
                         <img src={`data:${order.photoMimeType};base64,${order.photoBase64}`} alt={order.nom_produit} className="img-fluid object-fit-cover" style={{ maxWidth: '80px', marginRight: '20px' }} />
                         <div>
                             <h6 className='text-uppercase'>{order.nom_produit}</h6>
-                            <p className='text-primary'>Vendeur : {order.prenom_vendeur} {order.nom_vendeur}</p>
+                            <a className='text-primary text-decoration-none' href={`/front-end_marche/user/profile-vendeur-acheteur/${order.id_vendeur}`}>Vendeur : {order.prenom_vendeur} {order.nom_vendeur}</a>
                         </div>
                     </div>
                     <div className="col-2 text-center">{order.prix_produit.toLocaleString('fr-FR')}</div>
@@ -74,9 +113,25 @@ const Order = ({ orders, totalGlobal, onQuantityChange, onRemoveProduct, error }
 
             <div className="row justify-content-end pt-4 mt-4">
                 <div className="col-4">
+                    <p className="d-flex justify-content-between">
+                        <strong>Prix HT (Ar) :</strong>
+                        {totalGlobal ? (
+                            <strong>{totalGlobal.toLocaleString('fr-FR')}</strong>
+                        ) : (
+                            <strong>{totalGlobal}</strong>
+                        )}
+                    </p>
+                    <p className="d-flex justify-content-between">
+                        <strong>Prix TVA (Ar) :</strong>
+                        {tva ? (
+                            <strong>{tva.toLocaleString('fr-FR')}</strong>
+                        ) : (
+                            <strong>{tva}</strong>
+                        )}
+                    </p>
                     <hr />
                     <p className="d-flex justify-content-between">
-                        <strong>Total (Ar) :</strong>
+                        <strong>Prix TTC (Ar) :</strong>
 
                         {error && (
                             <div className="alert alert-danger mt-3" role="alert">
@@ -84,10 +139,10 @@ const Order = ({ orders, totalGlobal, onQuantityChange, onRemoveProduct, error }
                             </div>
                         )}
 
-                        {totalGlobal ? (
-                            <strong>{totalGlobal.toLocaleString('fr-FR')}</strong>
+                        {ttc ? (
+                            <strong>{ttc.toLocaleString('fr-FR')}</strong>
                         ) : (
-                            <strong>{totalGlobal}</strong>
+                            <strong>{ttc}</strong>
                         )}
                     </p>
                 </div>
@@ -99,13 +154,13 @@ const Order = ({ orders, totalGlobal, onQuantityChange, onRemoveProduct, error }
                         <button
                             type="button"
                             className="btn btn-info bg-gradient text-white"
-                            onClick={() => navigate("/product-user/list")}
+                            onClick={() => navigate(-1)}
                         >
                             Retour
                         </button>
                     </div>
-                    <div className="col-4 text-end">
-                        <a href='https://buy.stripe.com/test_5kAaFM8CO4ye1dC5kk' className='btn btn-success' style={{ textDecoration: "none", color: "white" }}>Accéder au paiement</a>
+                    <div className="col-4 text-end" onClick={handlePaiement}>
+                        <a className='btn btn-success' style={{ textDecoration: "none", color: "white" }}>Accéder au paiement</a>
                     </div>
                 </div>
             </div>

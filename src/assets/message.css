@@ -14,10 +14,6 @@
   overflow: hidden;
 }
 
-.chat-window.closed {
-  display: none;
-}
-
 .chat-header {
   cursor: pointer;
 }
@@ -33,5 +29,6 @@
 }
 
 .chat-text {
+  width: fit-content;
   max-width: 300px;
 }

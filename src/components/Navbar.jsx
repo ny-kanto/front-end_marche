@@ -28,7 +28,7 @@ function Navbar() {
               <i className="ri-dashboard-line me-3"></i> Statistique
             </a>
           </li>
-          <li className="nav-item mb-2">
+          {/* <li className="nav-item mb-2">
             <a
               href="#"
               className={`nav-link d-flex align-items-center ${location.pathname === "/apps" ? "active" : ""
@@ -46,7 +46,7 @@ function Navbar() {
               <i className="ri-layout-grid-line me-3"></i> Layouts
               <span className="badge bg-danger ms-2">Hot</span>
             </a>
-          </li>
+          </li> */}
         </ul>
       </div>
 
@@ -108,7 +108,7 @@ function Navbar() {
               </ul>
             </div>
           </li>
-          <li className="nav-item mb-2">
+          {/* <li className="nav-item mb-2">
             <a
               href="#"
               className={`nav-link d-flex align-items-center ${location.pathname === "/landing" ? "active" : ""
@@ -116,11 +116,11 @@ function Navbar() {
             >
               <i className="ri-global-line me-3"></i> Landing
             </a>
-          </li>
+          </li> */}
         </ul>
       </div>
 
-      <div className="menu-section mt-4">
+      {/* <div className="menu-section mt-4">
         <h6 className="menu-title text-uppercase">Components</h6>
         <ul className="navbar-nav">
           <li className="nav-item mb-2">
@@ -151,7 +151,7 @@ function Navbar() {
             </a>
           </li>
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 }

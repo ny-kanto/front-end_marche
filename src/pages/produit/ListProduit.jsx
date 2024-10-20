@@ -218,7 +218,7 @@ function ListProduit() {
 
   const handleAddProduct = async () => {
     try {
-      const formData = new FormData();  // Crée une instance de FormData
+      const formData = new FormData();
       formData.append('nom', newProductData.nom);
       formData.append('description', newProductData.description);
       formData.append('prix', newProductData.prix);

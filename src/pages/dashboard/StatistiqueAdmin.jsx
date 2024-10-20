@@ -16,7 +16,7 @@ import {
   Title,
   Tooltip,
   Legend
-} from "chart.js"; 
+} from "chart.js";
 import NavbarAdmin from "../../components/NavbarAdmin";
 import { Pie } from 'react-chartjs-2';
 import { Bar } from 'react-chartjs-2';
@@ -35,13 +35,7 @@ ChartJS.register(
 );
 
 function StatistiqueAdmin() {
-
-
-  const cardColor = "#ffffff"; // Couleur de fond de la carte
-  const borderColor = "#e0e0e0"; // Couleur de la bordure
   const labelColor = "#000000"; // Couleur des labels
-  const headingColor = "#343a40"; // Couleur du texte principal
-  const legendColor = "#495057"; // Couleur des légendes
 
 
   const [statCategory, setStatCategory] = useState([]);

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import axios from "axios";
@@ -294,9 +295,9 @@ function DetailProductUser({ onAddToCart }) {
         <div className="col-md-7 offset-1">
           <h3 className="text-uppercase">{produits.nom}</h3>
           <p className="text-muted">
-            <span className="text-primary">
+            <a className="text-primary text-decoration-none" href={`/front-end_marche/user/profile-vendeur-acheteur/${produits.personne.id}`}>
               Vendeur: {produits.personne.prenom} {produits.personne.nom}
-            </span>
+            </a>
           </p>
           <div className="d-flex align-items-center">
             <div className="star-rating">
@@ -372,7 +373,7 @@ function DetailProductUser({ onAddToCart }) {
           <div className="mt-5 mb-5">
             <form onSubmit={handleAddToCart}>
               <div className="row align-items-center">
-                <div className="col-md-5 d-flex justify-content-between">
+                <div className="col-md-4 d-flex justify-content-between">
                   <label htmlFor="quantite" className="form-label">
                     Quantité :
                   </label>
@@ -387,8 +388,13 @@ function DetailProductUser({ onAddToCart }) {
                     disabled={stock === 0}
                   />
                 </div>
+
+                <div className="col-md-2">
+                  {produits.unite.nom}
+                </div>
+
                 {stock > 0 ? (
-                  <div className="col-md-5 offset-md-2 mt-3 mt-md-0 d-flex justify-content-center">
+                  <div className="col-md-4 offset-md-2 mt-3 mt-md-0 d-flex justify-content-center">
                     <button
                       className="btn btn-success w-fit-content"
                       type="submit"
@@ -398,7 +404,7 @@ function DetailProductUser({ onAddToCart }) {
                     </button>
                   </div>
                 ) : (
-                  <div className="col-md-5 offset-md-2 mt-3 mt-md-0 d-flex justify-content-center">
+                  <div className="col-md-4 offset-md-2 mt-3 mt-md-0 d-flex justify-content-center">
                     <button
                       className="btn btn-secondary w-fit-content"
                       type="button"
@@ -608,7 +614,7 @@ function DetailProductUser({ onAddToCart }) {
           <button
             type="button"
             className="btn btn-info bg-gradient text-white"
-            onClick={() => navigate("/product-user/list")}
+            onClick={() => navigate(-1)}
           >
             Retour
           </button>
